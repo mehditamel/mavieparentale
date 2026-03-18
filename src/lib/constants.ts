@@ -152,6 +152,51 @@ export const HEALTH_EXAMINATIONS = [
   { number: 20, ageLabel: "16-18 ans", ageMonths: 204 },
 ] as const;
 
+// Development milestones reference (OMS/HAS)
+export const DEVELOPMENT_MILESTONES_REFERENCE = [
+  // Motricité
+  { category: "motricite", name: "Tient sa tête", expectedAgeMonths: 3 },
+  { category: "motricite", name: "Se retourne", expectedAgeMonths: 5 },
+  { category: "motricite", name: "S'assoit sans soutien", expectedAgeMonths: 8 },
+  { category: "motricite", name: "Se met debout avec appui", expectedAgeMonths: 10 },
+  { category: "motricite", name: "Marche seul", expectedAgeMonths: 14 },
+  { category: "motricite", name: "Monte les escaliers", expectedAgeMonths: 18 },
+  { category: "motricite", name: "Court", expectedAgeMonths: 20 },
+  { category: "motricite", name: "Saute sur place", expectedAgeMonths: 30 },
+  { category: "motricite", name: "Fait du tricycle", expectedAgeMonths: 36 },
+  // Langage
+  { category: "langage", name: "Gazouille", expectedAgeMonths: 3 },
+  { category: "langage", name: "Babille (ba-ba, ma-ma)", expectedAgeMonths: 8 },
+  { category: "langage", name: "Premier mot", expectedAgeMonths: 12 },
+  { category: "langage", name: "Dit 5-10 mots", expectedAgeMonths: 18 },
+  { category: "langage", name: "Associe 2 mots", expectedAgeMonths: 24 },
+  { category: "langage", name: "Fait des phrases simples", expectedAgeMonths: 30 },
+  { category: "langage", name: "Raconte une histoire courte", expectedAgeMonths: 36 },
+  // Cognition
+  { category: "cognition", name: "Suit un objet du regard", expectedAgeMonths: 2 },
+  { category: "cognition", name: "Attrape un objet", expectedAgeMonths: 5 },
+  { category: "cognition", name: "Permanence de l'objet", expectedAgeMonths: 9 },
+  { category: "cognition", name: "Empile 2-3 cubes", expectedAgeMonths: 15 },
+  { category: "cognition", name: "Tri par couleur", expectedAgeMonths: 24 },
+  { category: "cognition", name: "Compte jusqu'à 3", expectedAgeMonths: 30 },
+  { category: "cognition", name: "Connaît les couleurs", expectedAgeMonths: 36 },
+  // Social
+  { category: "social", name: "Sourire social", expectedAgeMonths: 2 },
+  { category: "social", name: "Reconnaît les visages familiers", expectedAgeMonths: 4 },
+  { category: "social", name: "Angoisse de séparation", expectedAgeMonths: 8 },
+  { category: "social", name: "Joue à côté des autres", expectedAgeMonths: 18 },
+  { category: "social", name: "Joue avec les autres", expectedAgeMonths: 30 },
+  { category: "social", name: "Partage avec les autres", expectedAgeMonths: 36 },
+  // Autonomie
+  { category: "autonomie", name: "Tient son biberon", expectedAgeMonths: 8 },
+  { category: "autonomie", name: "Mange avec les doigts", expectedAgeMonths: 10 },
+  { category: "autonomie", name: "Boit au verre", expectedAgeMonths: 14 },
+  { category: "autonomie", name: "Utilise une cuillère", expectedAgeMonths: 18 },
+  { category: "autonomie", name: "S'habille avec aide", expectedAgeMonths: 24 },
+  { category: "autonomie", name: "Propreté de jour", expectedAgeMonths: 30 },
+  { category: "autonomie", name: "S'habille seul", expectedAgeMonths: 36 },
+] as const;
+
 // Plan pricing
 export const PLAN_PRICING = {
   free: { price: 0, label: "Gratuit" },
