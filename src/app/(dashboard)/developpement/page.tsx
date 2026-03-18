@@ -1,45 +1,46 @@
 import type { Metadata } from "next";
-import { TrendingUp } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
-import { EmptyState } from "@/components/shared/empty-state";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DeveloppementTabs } from "@/components/developpement/developpement-tabs";
+import { getFamilyMembers } from "@/lib/actions/family";
+import { getMilestones, getJournalEntries } from "@/lib/actions/educational";
+import type { DevelopmentMilestone, ParentJournalEntry } from "@/types/health";
 
 export const metadata: Metadata = {
-  title: "D\u00e9veloppement",
+  title: "Développement",
 };
 
-export default function DeveloppementPage() {
+export default async function DeveloppementPage() {
+  const membersResult = await getFamilyMembers();
+  const allMembers = membersResult.data ?? [];
+  const children = allMembers.filter((m) => m.memberType === "child");
+
+  const milestonesByMember: Record<string, DevelopmentMilestone[]> = {};
+  const journalByMember: Record<string, ParentJournalEntry[]> = {};
+
+  await Promise.all(
+    children.map(async (child) => {
+      const [milestonesResult, journalResult] = await Promise.all([
+        getMilestones(child.id),
+        getJournalEntries(child.id),
+      ]);
+      milestonesByMember[child.id] = milestonesResult.data ?? [];
+      journalByMember[child.id] = journalResult.data ?? [];
+    })
+  );
+
   return (
     <div className="space-y-6">
       <PageHeader
-        title="D\u00e9veloppement"
-        description="Suivez les jalons de d\u00e9veloppement et tenez le journal parental"
+        title="Développement"
+        description="Suivez les jalons de développement et tenez le journal parental"
       />
 
-      <Tabs defaultValue="jalons" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="jalons">Jalons</TabsTrigger>
-          <TabsTrigger value="journal">Journal</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="jalons">
-          <EmptyState
-            icon={TrendingUp}
-            title="Jalons de d\u00e9veloppement"
-            description="Suivez la motricit\u00e9, le langage, la cognition et les comp\u00e9tences sociales de Matis selon les r\u00e9f\u00e9rentiels OMS/HAS."
-            actionLabel="D\u00e9couvrir les jalons"
-          />
-        </TabsContent>
-
-        <TabsContent value="journal">
-          <EmptyState
-            icon={TrendingUp}
-            title="Le journal de votre famille"
-            description="Notez les premiers mots, les fous rires, les petites victoires. Vous serez contents de les relire."
-            actionLabel="\u00c9crire une premi\u00e8re note"
-          />
-        </TabsContent>
-      </Tabs>
+      <DeveloppementTabs
+        milestonesByMember={milestonesByMember}
+        journalByMember={journalByMember}
+      >
+        {children}
+      </DeveloppementTabs>
     </div>
   );
 }

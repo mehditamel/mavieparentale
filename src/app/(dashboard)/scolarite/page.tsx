@@ -1,26 +1,40 @@
 import type { Metadata } from "next";
-import { GraduationCap } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
-import { EmptyState } from "@/components/shared/empty-state";
+import { SchoolingTimeline } from "@/components/educatif/schooling-timeline";
+import { getFamilyMembers } from "@/lib/actions/family";
+import { getSchooling } from "@/lib/actions/educational";
+import type { Schooling } from "@/types/educational";
 
 export const metadata: Metadata = {
-  title: "Scolarit\u00e9",
+  title: "Scolarité",
 };
 
-export default function ScolaritePage() {
+export default async function ScolaritePage() {
+  const membersResult = await getFamilyMembers();
+  const allMembers = membersResult.data ?? [];
+  const children = allMembers.filter((m) => m.memberType === "child");
+
+  const schoolingByMember: Record<string, Schooling[]> = {};
+
+  await Promise.all(
+    children.map(async (child) => {
+      const result = await getSchooling(child.id);
+      schoolingByMember[child.id] = result.data ?? [];
+    })
+  );
+
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Scolarit\u00e9"
-        description="Timeline pr\u00e9visionnelle et suivi de la scolarit\u00e9 de vos enfants"
+        title="Scolarité"
+        description="Timeline prévisionnelle et suivi de la scolarité de vos enfants"
       />
 
-      <EmptyState
-        icon={GraduationCap}
-        title="Timeline scolaire"
-        description="Matis entrera en cr\u00e8che puis en maternelle. Visualisez les \u00e9tapes cl\u00e9s et les dates d'inscription."
-        actionLabel="Configurer la timeline"
-      />
+      <SchoolingTimeline
+        schoolingByMember={schoolingByMember}
+      >
+        {children}
+      </SchoolingTimeline>
     </div>
   );
 }
