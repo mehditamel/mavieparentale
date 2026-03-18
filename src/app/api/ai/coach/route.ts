@@ -3,9 +3,18 @@ import { createClient } from "@/lib/supabase/server";
 import { callClaude, parseJsonResponse } from "@/lib/ai/anthropic";
 import { BUDGET_COACH_PROMPT } from "@/lib/ai/prompts";
 import { PLAN_LIMITS, AI_MONTHLY_LIMITS } from "@/lib/constants";
+import { rateLimit } from "@/lib/rate-limit";
 import type { AiCoachResponse } from "@/types/ai";
 
 export async function POST() {
+  const limited = rateLimit("ai-coach", 10, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },

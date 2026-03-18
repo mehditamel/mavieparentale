@@ -5,7 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChildSelector } from "@/components/sante/child-selector";
 import { VaccinationCalendar } from "@/components/sante/vaccination-calendar";
 import { AppointmentList } from "@/components/sante/appointment-list";
-import { GrowthChart } from "@/components/sante/growth-chart";
+import dynamic from "next/dynamic";
+
+const GrowthChart = dynamic(() => import("@/components/sante/growth-chart").then((m) => m.GrowthChart), {
+  loading: () => <div className="h-64 animate-pulse rounded-lg bg-muted" />,
+  ssr: false,
+});
 import type { FamilyMember } from "@/types/family";
 import type { Vaccination, MedicalAppointment, GrowthMeasurement } from "@/types/health";
 

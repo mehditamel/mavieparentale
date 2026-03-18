@@ -22,7 +22,7 @@ export function StatCard({
   className,
 }: StatCardProps) {
   return (
-    <Card className={cn("", className)}>
+    <Card className={cn("transition-shadow duration-200 hover:shadow-md animate-fade-in-up", className)}>
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>

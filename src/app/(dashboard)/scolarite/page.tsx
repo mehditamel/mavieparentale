@@ -7,6 +7,7 @@ import type { Schooling } from "@/types/educational";
 
 export const metadata: Metadata = {
   title: "Scolarité",
+  description: "Timeline scolaire, inscriptions et suivi des établissements de vos enfants",
 };
 
 export default async function ScolaritePage() {

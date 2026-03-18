@@ -8,6 +8,7 @@ import { getFamilyMembers } from "@/lib/actions/family";
 
 export const metadata: Metadata = {
   title: "Coffre-fort numérique",
+  description: "Stockez et organisez les documents importants de votre famille en toute sécurité",
 };
 
 function formatStorageUsed(bytes: number): string {
