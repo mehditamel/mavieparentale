@@ -7,6 +7,7 @@ import type { DevelopmentMilestone, ParentJournalEntry } from "@/types/health";
 
 export const metadata: Metadata = {
   title: "Développement",
+  description: "Suivez les jalons de développement, le journal parental et les progrès de vos enfants",
 };
 
 export default async function DeveloppementPage() {

@@ -14,6 +14,7 @@ import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Paramètres",
+  description: "Configurez votre profil, gérez votre abonnement et les préférences de votre foyer",
 };
 
 export default async function ParametresPage() {

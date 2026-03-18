@@ -12,6 +12,7 @@ import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Identité & documents",
+  description: "Suivez les pièces d'identité de votre famille et recevez des alertes d'expiration",
 };
 
 export default async function IdentitePage() {

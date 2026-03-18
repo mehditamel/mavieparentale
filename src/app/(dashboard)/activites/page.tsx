@@ -10,6 +10,7 @@ import type { Activity } from "@/types/educational";
 
 export const metadata: Metadata = {
   title: "Activités & loisirs",
+  description: "Gérez les activités extra-scolaires et loisirs de vos enfants",
 };
 
 export default async function ActivitesPage() {

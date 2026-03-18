@@ -22,8 +22,16 @@ import {
 import { MobileNav } from "./mobile-nav";
 import { createClient } from "@/lib/supabase/client";
 
-export function Topbar() {
+interface TopbarProps {
+  userEmail?: string;
+  userInitials?: string;
+  alertCount?: number;
+}
+
+export function Topbar({ userEmail, userInitials, alertCount = 0 }: TopbarProps) {
   const router = useRouter();
+  const initials = userInitials || "?";
+  const email = userEmail || "";
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -51,20 +59,27 @@ export function Topbar() {
 
       <div className="flex-1" />
 
-      <Button variant="ghost" size="icon" className="relative">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="relative"
+        aria-label={`Notifications${alertCount > 0 ? ` (${alertCount} en attente)` : ""}`}
+        onClick={() => router.push("/dashboard")}
+      >
         <Bell className="h-5 w-5" />
-        <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-warm-orange text-[10px] text-white">
-          3
-        </span>
-        <span className="sr-only">Notifications</span>
+        {alertCount > 0 && (
+          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-warm-orange text-[10px] text-white">
+            {alertCount > 9 ? "9+" : alertCount}
+          </span>
+        )}
       </Button>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+          <Button variant="ghost" className="relative h-9 w-9 rounded-full" aria-label="Menu utilisateur">
             <Avatar className="h-9 w-9">
               <AvatarFallback className="bg-warm-teal text-white text-sm">
-                MT
+                {initials}
               </AvatarFallback>
             </Avatar>
           </Button>
@@ -73,9 +88,9 @@ export function Topbar() {
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium">Mon compte</p>
-              <p className="text-xs text-muted-foreground">
-                mehdi@exemple.fr
-              </p>
+              {email && (
+                <p className="text-xs text-muted-foreground">{email}</p>
+              )}
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -85,12 +100,12 @@ export function Topbar() {
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/parametres")}>
             <Settings className="mr-2 h-4 w-4" />
-            Param\u00e8tres
+            Paramètres
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut}>
             <LogOut className="mr-2 h-4 w-4" />
-            D\u00e9connexion
+            Déconnexion
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

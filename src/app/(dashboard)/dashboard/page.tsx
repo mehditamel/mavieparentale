@@ -28,6 +28,7 @@ import { differenceInMonths } from "date-fns";
 
 export const metadata: Metadata = {
   title: "Tableau de bord",
+  description: "Vue d'ensemble de votre foyer : alertes, vaccins, documents et actions rapides",
 };
 
 const ALERT_CATEGORY_LABELS: Record<string, string> = {

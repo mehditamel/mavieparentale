@@ -7,6 +7,7 @@ import type { Vaccination, MedicalAppointment, GrowthMeasurement } from "@/types
 
 export const metadata: Metadata = {
   title: "Santé & vaccinations",
+  description: "Calendrier vaccinal, courbes de croissance et rendez-vous médicaux de vos enfants",
 };
 
 export default async function SantePage() {

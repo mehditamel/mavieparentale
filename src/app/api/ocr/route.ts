@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { extractTextFromImage } from "@/lib/integrations/ocr";
 import { callClaude, parseJsonResponse } from "@/lib/ai/anthropic";
+import { rateLimit } from "@/lib/rate-limit";
 import type { Medication } from "@/types/health";
 
 const OCR_SYSTEM_PROMPT = `Tu es un assistant médical spécialisé dans l'extraction de données d'ordonnances.
@@ -26,6 +27,14 @@ Règles :
 - Retourne uniquement le JSON, sans texte supplémentaire`;
 
 export async function POST(request: NextRequest) {
+  const limited = rateLimit("ocr", 5, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },

@@ -19,8 +19,16 @@ import { BudgetEntryForm } from "./budget-entry-form";
 import { BudgetEntryList } from "./budget-entry-list";
 import { CafAllocationList } from "./caf-allocation-list";
 import { SavingsGoalCard } from "./savings-goal-card";
-import { BudgetCategoryChart } from "./budget-category-chart";
-import { BudgetMonthlyChart } from "./budget-monthly-chart";
+import dynamic from "next/dynamic";
+
+const BudgetCategoryChart = dynamic(() => import("./budget-category-chart").then((m) => m.BudgetCategoryChart), {
+  loading: () => <div className="h-64 animate-pulse rounded-lg bg-muted" />,
+  ssr: false,
+});
+const BudgetMonthlyChart = dynamic(() => import("./budget-monthly-chart").then((m) => m.BudgetMonthlyChart), {
+  loading: () => <div className="h-64 animate-pulse rounded-lg bg-muted" />,
+  ssr: false,
+});
 import type { BudgetEntry, CafAllocation, SavingsGoal, BudgetSummary } from "@/types/budget";
 import type { FamilyMember } from "@/types/family";
 import { formatCurrency } from "@/lib/utils";

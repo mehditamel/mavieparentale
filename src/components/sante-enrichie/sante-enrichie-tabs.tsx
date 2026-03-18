@@ -5,7 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChildSelector } from "@/components/sante/child-selector";
 import { ExaminationsList } from "@/components/sante-enrichie/examinations-list";
 import { TndScreening } from "@/components/sante-enrichie/tnd-screening";
-import { ScreenExposure } from "@/components/sante-enrichie/screen-exposure";
+import dynamic from "next/dynamic";
+
+const ScreenExposure = dynamic(() => import("@/components/sante-enrichie/screen-exposure").then((m) => m.ScreenExposure), {
+  loading: () => <div className="h-64 animate-pulse rounded-lg bg-muted" />,
+  ssr: false,
+});
 import { DailyJournalList } from "@/components/sante-enrichie/daily-journal-list";
 import { AllergiesList } from "@/components/sante-enrichie/allergies-list";
 import { PrescriptionsList } from "@/components/sante-enrichie/prescriptions-list";
