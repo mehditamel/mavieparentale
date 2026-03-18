@@ -9,8 +9,10 @@ interface EmptyStateProps {
   description: string;
   actionLabel?: string;
   actionHref?: string;
+  onAction?: () => void;
   secondaryLabel?: string;
   secondaryHref?: string;
+  onSecondaryAction?: () => void;
 }
 
 export function EmptyState({
@@ -18,9 +20,11 @@ export function EmptyState({
   title,
   description,
   actionLabel,
-  actionHref = "#",
+  actionHref,
+  onAction,
   secondaryLabel,
-  secondaryHref = "#",
+  secondaryHref,
+  onSecondaryAction,
 }: EmptyStateProps) {
   return (
     <Card className="border-dashed">
@@ -33,14 +37,24 @@ export function EmptyState({
           {description}
         </p>
         <div className="flex gap-3">
-          {actionLabel && (
+          {actionLabel && actionHref && (
             <Button asChild>
               <Link href={actionHref}>{actionLabel}</Link>
             </Button>
           )}
-          {secondaryLabel && (
+          {actionLabel && !actionHref && (
+            <Button onClick={onAction} disabled={!onAction}>
+              {actionLabel}
+            </Button>
+          )}
+          {secondaryLabel && secondaryHref && (
             <Button variant="outline" asChild>
               <Link href={secondaryHref}>{secondaryLabel}</Link>
+            </Button>
+          )}
+          {secondaryLabel && !secondaryHref && (
+            <Button variant="outline" onClick={onSecondaryAction} disabled={!onSecondaryAction}>
+              {secondaryLabel}
             </Button>
           )}
         </div>

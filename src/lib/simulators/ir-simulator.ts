@@ -36,9 +36,12 @@ export function simulateIR(input: TaxSimulationInput): TaxSimulationResult {
     TAX_CREDITS.gardeEnfant.maxCredit
   );
 
+  const emploiDomicileMaxExpenses =
+    TAX_CREDITS.emploiDomicile.maxExpenses +
+    (input.numChildren || 0) * TAX_CREDITS.emploiDomicile.extraPerChild;
   const emploiDomicile = Math.min(
     input.emploiDomicileExpenses * TAX_CREDITS.emploiDomicile.rate,
-    TAX_CREDITS.emploiDomicile.maxExpenses * TAX_CREDITS.emploiDomicile.rate
+    emploiDomicileMaxExpenses * TAX_CREDITS.emploiDomicile.rate
   );
 
   const maxDons =

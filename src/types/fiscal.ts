@@ -16,6 +16,7 @@ export interface FiscalYear {
 export interface TaxSimulationInput {
   revenuNetImposable: number;
   nbParts: number;
+  numChildren: number;
   gardeEnfantExpenses: number;
   emploiDomicileExpenses: number;
   donsOrganismes: number;

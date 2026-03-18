@@ -2,65 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  IdCard,
-  HeartPulse,
-  FolderLock,
-  GraduationCap,
-  Palette,
-  TrendingUp,
-  Calculator,
-  Wallet,
-  Baby,
-  ClipboardList,
-  Settings,
-  type LucideIcon,
-} from "lucide-react";
+import { LayoutDashboard, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SheetClose } from "@/components/ui/sheet";
-
-const ICON_MAP: Record<string, LucideIcon> = {
-  LayoutDashboard, IdCard, HeartPulse, FolderLock, GraduationCap,
-  Palette, TrendingUp, Calculator, Wallet, Baby, ClipboardList, Settings,
-};
-
-const NAVIGATION = [
-  {
-    group: "Vue d'ensemble",
-    items: [{ label: "Tableau de bord", href: "/dashboard", icon: "LayoutDashboard" }],
-  },
-  {
-    group: "Administratif",
-    items: [
-      { label: "Identit\u00e9", href: "/identite", icon: "IdCard" },
-      { label: "Sant\u00e9", href: "/sante", icon: "HeartPulse" },
-      { label: "Coffre-fort", href: "/documents", icon: "FolderLock" },
-    ],
-  },
-  {
-    group: "\u00c9ducatif",
-    items: [
-      { label: "Scolarit\u00e9", href: "/scolarite", icon: "GraduationCap" },
-      { label: "Activit\u00e9s", href: "/activites", icon: "Palette" },
-      { label: "D\u00e9veloppement", href: "/developpement", icon: "TrendingUp" },
-    ],
-  },
-  {
-    group: "Finances",
-    items: [
-      { label: "Fiscal", href: "/fiscal", icon: "Calculator" },
-      { label: "Budget", href: "/budget", icon: "Wallet" },
-    ],
-  },
-  {
-    group: "Services",
-    items: [
-      { label: "Garde", href: "/garde", icon: "Baby" },
-      { label: "D\u00e9marches", href: "/demarches", icon: "ClipboardList" },
-    ],
-  },
-];
+import { SIDEBAR_NAVIGATION } from "@/lib/constants";
+import { ICON_MAP } from "@/components/layout/sidebar";
 
 export function MobileNav() {
   const pathname = usePathname();
@@ -77,7 +23,7 @@ export function MobileNav() {
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
-        {NAVIGATION.map((group) => (
+        {SIDEBAR_NAVIGATION.map((group) => (
           <div key={group.group}>
             <p className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-sidebar-muted">
               {group.group}
@@ -97,8 +43,8 @@ export function MobileNav() {
                         className={cn(
                           "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                           isActive
-                            ? "bg-sidebar-accent text-white font-medium"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent/50"
+                            ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                            : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white"
                         )}
                       >
                         <Icon className="h-4 w-4" />
@@ -117,10 +63,15 @@ export function MobileNav() {
         <SheetClose asChild>
           <Link
             href="/parametres"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent/50"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              pathname === "/parametres"
+                ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-white"
+            )}
           >
             <Settings className="h-4 w-4" />
-            Param\u00e8tres
+            Paramètres
           </Link>
         </SheetClose>
       </div>

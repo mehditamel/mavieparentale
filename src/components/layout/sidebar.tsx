@@ -18,8 +18,9 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SIDEBAR_NAVIGATION } from "@/lib/constants";
 
-const ICON_MAP: Record<string, LucideIcon> = {
+export const ICON_MAP: Record<string, LucideIcon> = {
   LayoutDashboard,
   IdCard,
   HeartPulse,
@@ -33,56 +34,6 @@ const ICON_MAP: Record<string, LucideIcon> = {
   ClipboardList,
   Settings,
 };
-
-interface NavItem {
-  label: string;
-  href: string;
-  icon: string;
-}
-
-interface NavGroup {
-  group: string;
-  items: readonly NavItem[];
-}
-
-const NAVIGATION: NavGroup[] = [
-  {
-    group: "Vue d'ensemble",
-    items: [
-      { label: "Tableau de bord", href: "/dashboard", icon: "LayoutDashboard" },
-    ],
-  },
-  {
-    group: "Administratif",
-    items: [
-      { label: "Identit\u00e9 & documents", href: "/identite", icon: "IdCard" },
-      { label: "Sant\u00e9 & vaccins", href: "/sante", icon: "HeartPulse" },
-      { label: "Coffre-fort", href: "/documents", icon: "FolderLock" },
-    ],
-  },
-  {
-    group: "\u00c9ducatif",
-    items: [
-      { label: "Scolarit\u00e9", href: "/scolarite", icon: "GraduationCap" },
-      { label: "Activit\u00e9s", href: "/activites", icon: "Palette" },
-      { label: "D\u00e9veloppement", href: "/developpement", icon: "TrendingUp" },
-    ],
-  },
-  {
-    group: "Finances",
-    items: [
-      { label: "Foyer fiscal", href: "/fiscal", icon: "Calculator" },
-      { label: "Budget", href: "/budget", icon: "Wallet" },
-    ],
-  },
-  {
-    group: "Services",
-    items: [
-      { label: "Recherche de garde", href: "/garde", icon: "Baby" },
-      { label: "D\u00e9marches", href: "/demarches", icon: "ClipboardList" },
-    ],
-  },
-];
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -101,7 +52,7 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
-        {NAVIGATION.map((group) => (
+        {SIDEBAR_NAVIGATION.map((group) => (
           <div key={group.group}>
             <p className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-sidebar-muted">
               {group.group}
@@ -147,7 +98,7 @@ export function Sidebar() {
           )}
         >
           <Settings className="h-4 w-4" />
-          Param\u00e8tres
+          Paramètres
         </Link>
       </div>
     </aside>

@@ -123,7 +123,7 @@ export const VACCINATION_SCHEDULE = [
     name: "Rougeole-Oreillons-Rub\u00e9ole",
     doses: [
       { doseNumber: 1, ageMonths: 12, label: "12 mois" },
-      { doseNumber: 2, ageMonths: 18, label: "16-18 mois" },
+      { doseNumber: 2, ageMonths: 16, label: "16-18 mois" },
     ],
   },
 ] as const;
@@ -164,7 +164,7 @@ export const SIDEBAR_NAVIGATION = [
   {
     group: "Vue d'ensemble",
     items: [
-      { label: "Tableau de bord", href: "/", icon: "LayoutDashboard" },
+      { label: "Tableau de bord", href: "/dashboard", icon: "LayoutDashboard" },
     ],
   },
   {
