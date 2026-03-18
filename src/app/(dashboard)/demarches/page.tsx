@@ -1,13 +1,43 @@
 import type { Metadata } from "next";
-import { ClipboardList } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader } from "@/components/shared/page-header";
-import { EmptyState } from "@/components/shared/empty-state";
+import { DemarchesTimeline } from "@/components/demarches/demarches-timeline";
+import { DemarchesTaskForm } from "@/components/demarches/demarches-task-form";
+import { SocialRightsSimulator } from "@/components/demarches/social-rights-simulator";
+import {
+  getAdministrativeTasks,
+  generateTasksFromTemplates,
+} from "@/lib/actions/demarches";
+import { getFamilyMembers } from "@/lib/actions/family";
 
 export const metadata: Metadata = {
   title: "D\u00e9marches & droits",
+  description:
+    "Checklist des d\u00e9marches administratives et simulation de vos droits sociaux",
 };
 
-export default function DemarchesPage() {
+export default async function DemarchesPage() {
+  const [tasksResult, membersResult] = await Promise.all([
+    getAdministrativeTasks(),
+    getFamilyMembers(),
+  ]);
+
+  const members = membersResult.success ? (membersResult.data ?? []) : [];
+  const children = members.filter((m) => m.memberType === "child");
+
+  // Auto-generate tasks from templates for each child if none exist
+  for (const child of children) {
+    await generateTasksFromTemplates(child.id, child.birthDate);
+  }
+
+  // Re-fetch after potential generation
+  const finalTasksResult = await getAdministrativeTasks();
+  const tasks = finalTasksResult.success
+    ? (finalTasksResult.data ?? [])
+    : tasksResult.success
+      ? (tasksResult.data ?? [])
+      : [];
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -15,12 +45,25 @@ export default function DemarchesPage() {
         description="Checklist des d\u00e9marches administratives et simulation de vos droits sociaux"
       />
 
-      <EmptyState
-        icon={ClipboardList}
-        title="Vos d\u00e9marches en un coup d'\u0153il"
-        description="D\u00e9couvrez les d\u00e9marches \u00e0 effectuer selon l'\u00e2ge de vos enfants et simulez vos droits aux allocations."
-        actionLabel="D\u00e9couvrir mes d\u00e9marches"
-      />
+      <Tabs defaultValue="checklist" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="checklist">Checklist</TabsTrigger>
+          <TabsTrigger value="simulateur">Simulateur droits</TabsTrigger>
+          <TabsTrigger value="ajouter">Ajouter</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="checklist">
+          <DemarchesTimeline initialTasks={tasks} members={members} />
+        </TabsContent>
+
+        <TabsContent value="simulateur">
+          <SocialRightsSimulator />
+        </TabsContent>
+
+        <TabsContent value="ajouter">
+          <DemarchesTaskForm members={members} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
