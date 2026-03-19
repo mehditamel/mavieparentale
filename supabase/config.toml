@@ -1,10 +1,6 @@
-[project]
-id = "darons"
-name = "Darons"
-
 [db]
 port = 54322
-major_version = 15
+major_version = 17
 
 [studio]
 port = 54323
