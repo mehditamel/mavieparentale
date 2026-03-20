@@ -1,5 +1,7 @@
 "use server";
 
+import { safeAction } from "@/lib/actions/safe-action";
+
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { differenceInMonths, differenceInDays, format } from "date-fns";
@@ -77,6 +79,7 @@ export async function getAlerts(): Promise<ActionResult<ProactiveAlert[]>> {
 // ── Dismiss alert ──
 
 export async function dismissAlert(alertId: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -89,6 +92,9 @@ export async function dismissAlert(alertId: string): Promise<ActionResult> {
 
   revalidatePath("/dashboard");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // ── Generate proactive alerts (deterministic — no AI needed) ──

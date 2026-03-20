@@ -1,5 +1,7 @@
 "use server";
 
+import { safeAction } from "@/lib/actions/safe-action";
+
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -165,6 +167,7 @@ export async function updateActivity(
 }
 
 export async function deleteActivity(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -174,6 +177,9 @@ export async function deleteActivity(id: string): Promise<ActionResult> {
   revalidatePath("/activites");
   revalidatePath("/dashboard");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // --- Schooling ---
@@ -296,6 +302,7 @@ export async function updateSchooling(
 }
 
 export async function deleteSchooling(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -304,6 +311,9 @@ export async function deleteSchooling(id: string): Promise<ActionResult> {
 
   revalidatePath("/scolarite");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // --- Development Milestones ---
@@ -423,6 +433,7 @@ export async function updateMilestone(
 }
 
 export async function deleteMilestone(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -431,6 +442,9 @@ export async function deleteMilestone(id: string): Promise<ActionResult> {
 
   revalidatePath("/developpement");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // --- Parent Journal ---
@@ -547,6 +561,7 @@ export async function updateJournalEntry(
 }
 
 export async function deleteJournalEntry(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -555,4 +570,7 @@ export async function deleteJournalEntry(id: string): Promise<ActionResult> {
 
   revalidatePath("/developpement");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }

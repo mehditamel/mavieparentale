@@ -1,5 +1,7 @@
 "use server";
 
+import { safeAction } from "@/lib/actions/safe-action";
+
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { documentUploadSchema, type DocumentUploadFormData } from "@/lib/validators/documents";
@@ -187,6 +189,7 @@ export async function getDocumentSignedUrl(
 }
 
 export async function deleteDocument(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -206,4 +209,7 @@ export async function deleteDocument(id: string): Promise<ActionResult> {
   revalidatePath("/documents");
   revalidatePath("/dashboard");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }

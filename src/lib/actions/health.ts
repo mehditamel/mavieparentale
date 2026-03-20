@@ -1,5 +1,7 @@
 "use server";
 
+import { safeAction } from "@/lib/actions/safe-action";
+
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -150,6 +152,7 @@ export async function createVaccination(
 }
 
 export async function deleteVaccination(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -159,6 +162,9 @@ export async function deleteVaccination(id: string): Promise<ActionResult> {
   revalidatePath("/sante");
   revalidatePath("/dashboard");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // --- Growth Measurements ---
@@ -239,6 +245,7 @@ export async function createGrowthMeasurement(
 }
 
 export async function deleteGrowthMeasurement(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -247,6 +254,9 @@ export async function deleteGrowthMeasurement(id: string): Promise<ActionResult>
 
   revalidatePath("/sante");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 // --- Medical Appointments ---
@@ -396,6 +406,7 @@ export async function toggleAppointmentCompleted(
   id: string,
   completed: boolean
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -408,9 +419,13 @@ export async function toggleAppointmentCompleted(
 
   revalidatePath("/sante");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function deleteMedicalAppointment(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -419,4 +434,7 @@ export async function deleteMedicalAppointment(id: string): Promise<ActionResult
 
   revalidatePath("/sante");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }

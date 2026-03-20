@@ -1,5 +1,7 @@
 "use server";
 
+import { safeAction } from "@/lib/actions/safe-action";
+
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { familyMemberSchema, householdSchema, type FamilyMemberFormData, type HouseholdFormData } from "@/lib/validators/family";
@@ -201,6 +203,7 @@ export async function updateGestationalAge(
   memberId: string,
   gestationalAgeWeeks: number | null
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -214,12 +217,16 @@ export async function updateGestationalAge(
   revalidatePath("/sante");
   revalidatePath("/sante-enrichie");
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function updateFamilyMember(
   id: string,
   formData: FamilyMemberFormData
 ): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -248,9 +255,13 @@ export async function updateFamilyMember(
   revalidatePath("/sante");
 
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
 
 export async function deleteFamilyMember(id: string): Promise<ActionResult> {
+  try {
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -267,4 +278,7 @@ export async function deleteFamilyMember(id: string): Promise<ActionResult> {
   revalidatePath("/sante");
 
   return { success: true };
+  } catch {
+    return { success: false, error: "Une erreur inattendue est survenue" };
+  }
 }
