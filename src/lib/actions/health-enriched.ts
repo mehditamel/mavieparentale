@@ -225,6 +225,7 @@ export async function getDailyJournalEntries(
       appetite: e.appetite,
       stools: e.stools,
       screenTimeMinutes: e.screen_time_minutes,
+      physicalActivityMinutes: e.physical_activity_minutes ?? null,
       notes: e.notes,
       createdAt: e.created_at,
     })),
@@ -256,6 +257,7 @@ export async function createDailyJournalEntry(
       appetite: parsed.data.appetite ?? null,
       stools: parsed.data.stools ?? null,
       screen_time_minutes: parsed.data.screenTimeMinutes ?? null,
+      physical_activity_minutes: parsed.data.physicalActivityMinutes ?? null,
       notes: parsed.data.notes ?? null,
     })
     .select()
@@ -288,6 +290,7 @@ export async function createDailyJournalEntry(
       appetite: data.appetite,
       stools: data.stools,
       screenTimeMinutes: data.screen_time_minutes,
+      physicalActivityMinutes: data.physical_activity_minutes ?? null,
       notes: data.notes,
       createdAt: data.created_at,
     },
@@ -318,6 +321,7 @@ export async function updateDailyJournalEntry(
       appetite: parsed.data.appetite ?? null,
       stools: parsed.data.stools ?? null,
       screen_time_minutes: parsed.data.screenTimeMinutes ?? null,
+      physical_activity_minutes: parsed.data.physicalActivityMinutes ?? null,
       notes: parsed.data.notes ?? null,
     })
     .eq("id", id);
