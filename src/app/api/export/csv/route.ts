@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { rateLimit } from "@/lib/rate-limit";
 import { BUDGET_CATEGORY_LABELS } from "@/types/budget";
 
 export async function GET(request: NextRequest) {
+  const limited = rateLimit("export-csv", 5, 60_000);
+  if (limited) {
+    return NextResponse.json(
+      { error: "Trop de requêtes. Réessayez dans quelques instants." },
+      { status: 429 }
+    );
+  }
+
   const supabase = createClient();
   const {
     data: { user },
