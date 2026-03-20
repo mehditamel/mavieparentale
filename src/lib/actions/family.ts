@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { familyMemberSchema, type FamilyMemberFormData } from "@/lib/validators/family";
+import { familyMemberSchema, householdSchema, type FamilyMemberFormData, type HouseholdFormData } from "@/lib/validators/family";
 import type { FamilyMember, Household } from "@/types/family";
 
 export type ActionResult<T = void> = {
@@ -31,6 +31,61 @@ export async function getHousehold(): Promise<ActionResult<Household>> {
     .single();
 
   if (error) return { success: false, error: "Foyer introuvable" };
+
+  return {
+    success: true,
+    data: {
+      id: data.id,
+      name: data.name,
+      ownerId: data.owner_id,
+      createdAt: data.created_at,
+    },
+  };
+}
+
+export async function createHousehold(
+  formData: HouseholdFormData
+): Promise<ActionResult<Household>> {
+  const { user, supabase } = await getAuthenticatedUser();
+  if (!user) return { success: false, error: "Non authentifié" };
+
+  const parsed = householdSchema.safeParse(formData);
+  if (!parsed.success) {
+    return { success: false, error: parsed.error.errors[0]?.message ?? "Données invalides" };
+  }
+
+  // Check if user already has a household
+  const { data: existing } = await supabase
+    .from("households")
+    .select("id")
+    .eq("owner_id", user.id)
+    .single();
+
+  if (existing) {
+    return {
+      success: true,
+      data: {
+        id: existing.id,
+        name: parsed.data.name,
+        ownerId: user.id,
+        createdAt: new Date().toISOString(),
+      },
+    };
+  }
+
+  const { data, error } = await supabase
+    .from("households")
+    .insert({
+      name: parsed.data.name,
+      owner_id: user.id,
+    })
+    .select()
+    .single();
+
+  if (error) return { success: false, error: "Erreur lors de la création du foyer" };
+
+  revalidatePath("/dashboard");
+  revalidatePath("/parametres");
 
   return {
     success: true,

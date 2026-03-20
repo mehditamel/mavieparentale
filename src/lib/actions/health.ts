@@ -281,6 +281,57 @@ export async function getMedicalAppointments(
   };
 }
 
+export async function getUpcomingAppointments(
+  limit = 5
+): Promise<ActionResult<MedicalAppointment[]>> {
+  const { user, supabase } = await getAuthenticatedUser();
+  if (!user) return { success: false, error: "Non authentifié" };
+
+  const { data: household } = await supabase
+    .from("households")
+    .select("id")
+    .eq("owner_id", user.id)
+    .single();
+
+  if (!household) return { success: true, data: [] };
+
+  const { data: memberIds } = await supabase
+    .from("family_members")
+    .select("id")
+    .eq("household_id", household.id);
+
+  if (!memberIds || memberIds.length === 0) return { success: true, data: [] };
+
+  const ids = memberIds.map((m) => m.id);
+  const today = new Date().toISOString();
+
+  const { data, error } = await supabase
+    .from("medical_appointments")
+    .select("*")
+    .in("member_id", ids)
+    .eq("completed", false)
+    .gte("appointment_date", today)
+    .order("appointment_date", { ascending: true })
+    .limit(limit);
+
+  if (error) return { success: false, error: "Erreur lors de la récupération des RDV" };
+
+  return {
+    success: true,
+    data: (data ?? []).map((a) => ({
+      id: a.id,
+      memberId: a.member_id,
+      appointmentType: a.appointment_type,
+      practitioner: a.practitioner,
+      location: a.location,
+      appointmentDate: a.appointment_date,
+      notes: a.notes,
+      completed: a.completed,
+      createdAt: a.created_at,
+    })),
+  };
+}
+
 export async function createMedicalAppointment(
   formData: MedicalAppointmentFormData
 ): Promise<ActionResult<MedicalAppointment>> {
