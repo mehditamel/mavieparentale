@@ -111,7 +111,7 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
               </SelectContent>
             </Select>
             {errors.appointmentType && (
-              <p className="text-xs text-destructive">{errors.appointmentType.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.appointmentType.message}</p>
             )}
           </div>
 
@@ -119,7 +119,7 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
             <Label htmlFor="appointmentDate">Date et heure</Label>
             <Input id="appointmentDate" type="datetime-local" {...register("appointmentDate")} />
             {errors.appointmentDate && (
-              <p className="text-xs text-destructive">{errors.appointmentDate.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.appointmentDate.message}</p>
             )}
           </div>
 
@@ -138,7 +138,7 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
             <Textarea id="notes" {...register("notes")} placeholder="Notes..." rows={2} />
           </div>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>

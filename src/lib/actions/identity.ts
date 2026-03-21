@@ -1,14 +1,11 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { identityDocumentSchema, type IdentityDocumentFormData } from "@/lib/validators/family";
 import type { IdentityDocument } from "@/types/family";
+import { validateUUID } from "@/lib/validators/common";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 export interface IdentityDocumentWithMember extends IdentityDocument {
   memberFirstName: string;
@@ -194,6 +191,8 @@ export async function updateIdentityDocument(
 
 export async function deleteIdentityDocument(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 

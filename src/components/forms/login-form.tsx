@@ -152,7 +152,7 @@ export function LoginForm() {
               />
             </div>
             {errors.email && (
-              <p className="text-xs text-destructive">{errors.email.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.email.message}</p>
             )}
           </div>
 
@@ -178,7 +178,7 @@ export function LoginForm() {
                 />
               </div>
               {errors.password && (
-                <p className="text-xs text-destructive">
+                <p className="text-xs text-destructive" role="alert">
                   {errors.password.message}
                 </p>
               )}

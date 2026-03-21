@@ -42,13 +42,6 @@ export function CookieBanner() {
             <Button size="sm" onClick={handleAccept}>
               Compris
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleAccept}
-            >
-              Fermer
-            </Button>
           </div>
         </div>
       </div>

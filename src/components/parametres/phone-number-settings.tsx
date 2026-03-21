@@ -104,7 +104,7 @@ export function PhoneNumberSettings({ currentPhoneNumber, hasSms }: PhoneNumberS
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
-            {error && <p className="text-xs text-destructive">{error}</p>}
+            {error && <p className="text-xs text-destructive" role="alert">{error}</p>}
             <div className="flex gap-2">
               <Button size="sm" onClick={handleSave} disabled={loading}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

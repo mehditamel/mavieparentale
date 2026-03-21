@@ -84,7 +84,7 @@ export function AiSuggestionsCard({ childId, childName, hasAccess }: AiSuggestio
       </CardHeader>
       <CardContent>
         {error && (
-          <p className="text-sm text-destructive">{error}</p>
+          <p className="text-sm text-destructive" role="alert">{error}</p>
         )}
 
         {suggestions.length > 0 && !error && (

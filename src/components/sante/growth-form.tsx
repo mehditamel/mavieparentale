@@ -75,7 +75,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
             <Label htmlFor="measurementDate">Date de mesure</Label>
             <Input id="measurementDate" type="date" {...register("measurementDate")} />
             {errors.measurementDate && (
-              <p className="text-xs text-destructive">{errors.measurementDate.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.measurementDate.message}</p>
             )}
           </div>
 
@@ -117,7 +117,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
             <Textarea id="notes" {...register("notes")} placeholder="Notes..." rows={2} />
           </div>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>

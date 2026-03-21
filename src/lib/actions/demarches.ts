@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -9,11 +10,6 @@ import { DEMARCHES_CHECKLIST_TEMPLATES } from "@/lib/constants";
 import type { AdministrativeTask } from "@/types/demarches";
 import { addMonths, format } from "date-fns";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();

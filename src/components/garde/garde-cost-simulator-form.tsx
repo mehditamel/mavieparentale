@@ -109,7 +109,7 @@ export function GardeCostSimulatorForm() {
                   {...register("coutMensuelBrut", { valueAsNumber: true })}
                 />
                 {errors.coutMensuelBrut && (
-                  <p className="text-xs text-destructive">
+                  <p className="text-xs text-destructive" role="alert">
                     {errors.coutMensuelBrut.message}
                   </p>
                 )}
@@ -128,7 +128,7 @@ export function GardeCostSimulatorForm() {
                   {...register("revenuAnnuel", { valueAsNumber: true })}
                 />
                 {errors.revenuAnnuel && (
-                  <p className="text-xs text-destructive">
+                  <p className="text-xs text-destructive" role="alert">
                     {errors.revenuAnnuel.message}
                   </p>
                 )}

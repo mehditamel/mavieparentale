@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -7,11 +8,6 @@ import {
 } from "@/lib/validators/sharing";
 import type { Referral } from "@/types/sharing";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();
@@ -23,26 +19,41 @@ async function getAuthenticatedUser() {
   return { user, supabase };
 }
 
-function mapReferral(row: Record<string, unknown>): Referral {
+interface ReferralRow {
+  id: string;
+  referrer_id: string;
+  referral_code: string;
+  referree_id: string | null;
+  referree_email: string | null;
+  status: Referral["status"];
+  reward_type: Referral["rewardType"];
+  reward_applied: boolean;
+  created_at: string;
+  converted_at: string | null;
+}
+
+function mapReferral(row: ReferralRow): Referral {
   return {
-    id: row.id as string,
-    referrerId: row.referrer_id as string,
-    referralCode: row.referral_code as string,
-    referreeId: (row.referree_id as string) ?? null,
-    referreeEmail: (row.referree_email as string) ?? null,
-    status: row.status as Referral["status"],
-    rewardType: row.reward_type as Referral["rewardType"],
-    rewardApplied: row.reward_applied as boolean,
-    createdAt: row.created_at as string,
-    convertedAt: (row.converted_at as string) ?? null,
+    id: row.id,
+    referrerId: row.referrer_id,
+    referralCode: row.referral_code,
+    referreeId: row.referree_id,
+    referreeEmail: row.referree_email,
+    status: row.status,
+    rewardType: row.reward_type,
+    rewardApplied: row.reward_applied,
+    createdAt: row.created_at,
+    convertedAt: row.converted_at,
   };
 }
 
 function generateReferralCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let code = "CP-";
+  const randomBytes = new Uint8Array(6);
+  crypto.getRandomValues(randomBytes);
   for (let i = 0; i < 6; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
+    code += chars.charAt(randomBytes[i] % chars.length);
   }
   return code;
 }

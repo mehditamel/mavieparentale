@@ -137,7 +137,7 @@ export function DeleteAccountDialog({
               onChange={(e) => setReason(e.target.value)}
             />
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
         </div>
 
         <AlertDialogFooter>

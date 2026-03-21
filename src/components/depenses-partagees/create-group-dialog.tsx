@@ -64,7 +64,7 @@ export function CreateGroupDialog() {
               {...form.register("name")}
             />
             {form.formState.errors.name && (
-              <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
+              <p className="text-sm text-destructive" role="alert">{form.formState.errors.name.message}</p>
             )}
           </div>
           <div className="space-y-2">

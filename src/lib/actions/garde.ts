@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -11,11 +12,6 @@ import type {
   ChildcareStructureType,
 } from "@/types/garde";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();

@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
@@ -8,11 +9,6 @@ import {
 } from "@/lib/validators/sharing";
 import type { RoundupSettings, RoundupLogEntry } from "@/types/sharing";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();

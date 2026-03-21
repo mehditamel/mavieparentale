@@ -115,7 +115,7 @@ export function JournalForm({
               {...register("entryDate")}
             />
             {errors.entryDate && (
-              <p className="text-sm text-destructive">{errors.entryDate.message}</p>
+              <p className="text-sm text-destructive" role="alert">{errors.entryDate.message}</p>
             )}
           </div>
 
@@ -152,11 +152,11 @@ export function JournalForm({
               {...register("content")}
             />
             {errors.content && (
-              <p className="text-sm text-destructive">{errors.content.message}</p>
+              <p className="text-sm text-destructive" role="alert">{errors.content.message}</p>
             )}
           </div>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
 
           <DialogFooter>
             <Button

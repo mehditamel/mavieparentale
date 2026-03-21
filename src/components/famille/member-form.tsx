@@ -103,14 +103,14 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
               <Label htmlFor="firstName">Prénom</Label>
               <Input id="firstName" {...register("firstName")} placeholder="Prénom" />
               {errors.firstName && (
-                <p className="text-xs text-destructive">{errors.firstName.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.firstName.message}</p>
               )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="lastName">Nom</Label>
               <Input id="lastName" {...register("lastName")} placeholder="Nom" />
               {errors.lastName && (
-                <p className="text-xs text-destructive">{errors.lastName.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.lastName.message}</p>
               )}
             </div>
           </div>
@@ -119,7 +119,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
             <Label htmlFor="birthDate">Date de naissance</Label>
             <Input id="birthDate" type="date" {...register("birthDate")} />
             {errors.birthDate && (
-              <p className="text-xs text-destructive">{errors.birthDate.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.birthDate.message}</p>
             )}
           </div>
 
@@ -139,7 +139,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
                 </SelectContent>
               </Select>
               {errors.gender && (
-                <p className="text-xs text-destructive">{errors.gender.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.gender.message}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -157,7 +157,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
                 </SelectContent>
               </Select>
               {errors.memberType && (
-                <p className="text-xs text-destructive">{errors.memberType.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.memberType.message}</p>
               )}
             </div>
           </div>
@@ -166,12 +166,12 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
             <Label htmlFor="notes">Notes (optionnel)</Label>
             <Textarea id="notes" {...register("notes")} placeholder="Notes..." rows={2} />
             {errors.notes && (
-              <p className="text-xs text-destructive">{errors.notes.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.notes.message}</p>
             )}
           </div>
 
           {error && (
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-sm text-destructive" role="alert">{error}</p>
           )}
 
           <DialogFooter>

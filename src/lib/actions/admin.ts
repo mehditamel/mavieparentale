@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
@@ -8,11 +9,6 @@ import type { RevenueData } from "@/components/admin/revenue-charts";
 import type { CohortData } from "@/components/admin/cohort-heatmap";
 import type { SystemHealthData } from "@/components/admin/system-status";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();

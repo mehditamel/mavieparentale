@@ -178,7 +178,7 @@ export function SimulationResults({ result, input }: SimulationResultsProps) {
           <Save className="mr-2 h-4 w-4" />
           {saved ? "Sauvegardé" : saving ? "Sauvegarde..." : "Sauvegarder cette simulation"}
         </Button>
-        {saveError && <p className="text-sm text-destructive">{saveError}</p>}
+        {saveError && <p className="text-sm text-destructive" role="alert">{saveError}</p>}
       </div>
     </div>
   );

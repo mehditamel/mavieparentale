@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { createClient } from "@/lib/supabase/server";
 
 // ── Types ──

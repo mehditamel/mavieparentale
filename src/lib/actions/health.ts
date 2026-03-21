@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -11,12 +12,8 @@ import {
 } from "@/lib/validators/health";
 import type { Vaccination, GrowthMeasurement, MedicalAppointment } from "@/types/health";
 import { syncMedicalAppointmentToCalendar } from "@/lib/integrations/google-calendar";
+import { validateUUID } from "@/lib/validators/common";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();
@@ -28,6 +25,9 @@ async function getAuthenticatedUser() {
 // --- Vaccinations ---
 
 export async function getVaccinations(memberId: string): Promise<ActionResult<Vaccination[]>> {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -150,6 +150,9 @@ export async function createVaccination(
 
 export async function deleteVaccination(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -169,6 +172,9 @@ export async function deleteVaccination(id: string): Promise<ActionResult> {
 export async function getGrowthMeasurements(
   memberId: string
 ): Promise<ActionResult<GrowthMeasurement[]>> {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -243,6 +249,9 @@ export async function createGrowthMeasurement(
 
 export async function deleteGrowthMeasurement(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -261,6 +270,9 @@ export async function deleteGrowthMeasurement(id: string): Promise<ActionResult>
 export async function getMedicalAppointments(
   memberId: string
 ): Promise<ActionResult<MedicalAppointment[]>> {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -374,6 +386,7 @@ export async function createMedicalAppointment(
     .eq("id", data.member_id)
     .single();
 
+  // Best-effort calendar sync — don't block the response
   syncMedicalAppointmentToCalendar(
     user.id,
     member?.first_name ?? "Enfant",
@@ -381,7 +394,9 @@ export async function createMedicalAppointment(
     data.appointment_date,
     data.practitioner,
     data.location
-  );
+  ).catch(() => {
+    // Calendar sync is best-effort; failures are non-blocking
+  });
 
   return {
     success: true,
@@ -404,6 +419,9 @@ export async function toggleAppointmentCompleted(
   completed: boolean
 ): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -423,6 +441,9 @@ export async function toggleAppointmentCompleted(
 
 export async function deleteMedicalAppointment(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 

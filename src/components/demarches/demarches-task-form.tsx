@@ -94,7 +94,7 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
               {...register("title")}
             />
             {errors.title && (
-              <p className="text-xs text-destructive">
+              <p className="text-xs text-destructive" role="alert">
                 {errors.title.message}
               </p>
             )}
@@ -206,7 +206,7 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
               {...register("url")}
             />
             {errors.url && (
-              <p className="text-xs text-destructive">{errors.url.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.url.message}</p>
             )}
           </div>
 

@@ -131,7 +131,7 @@ export function IdentityDocumentForm({
               </SelectContent>
             </Select>
             {errors.memberId && (
-              <p className="text-xs text-destructive">{errors.memberId.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.memberId.message}</p>
             )}
           </div>
 
@@ -153,7 +153,7 @@ export function IdentityDocumentForm({
               </SelectContent>
             </Select>
             {errors.documentType && (
-              <p className="text-xs text-destructive">{errors.documentType.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.documentType.message}</p>
             )}
           </div>
 
@@ -178,7 +178,7 @@ export function IdentityDocumentForm({
             <Input id="issuingAuthority" {...register("issuingAuthority")} placeholder="Ex: Préfecture de..." />
           </div>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>

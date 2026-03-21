@@ -124,7 +124,7 @@ export function RegisterForm() {
                 />
               </div>
               {errors.firstName && (
-                <p className="text-xs text-destructive">
+                <p className="text-xs text-destructive" role="alert">
                   {errors.firstName.message}
                 </p>
               )}
@@ -137,7 +137,7 @@ export function RegisterForm() {
                 {...register("lastName")}
               />
               {errors.lastName && (
-                <p className="text-xs text-destructive">
+                <p className="text-xs text-destructive" role="alert">
                   {errors.lastName.message}
                 </p>
               )}
@@ -157,7 +157,7 @@ export function RegisterForm() {
               />
             </div>
             {errors.email && (
-              <p className="text-xs text-destructive">{errors.email.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.email.message}</p>
             )}
           </div>
 
@@ -174,7 +174,7 @@ export function RegisterForm() {
               />
             </div>
             {errors.password && (
-              <p className="text-xs text-destructive">
+              <p className="text-xs text-destructive" role="alert">
                 {errors.password.message}
               </p>
             )}
@@ -193,7 +193,7 @@ export function RegisterForm() {
               />
             </div>
             {errors.confirmPassword && (
-              <p className="text-xs text-destructive">
+              <p className="text-xs text-destructive" role="alert">
                 {errors.confirmPassword.message}
               </p>
             )}
@@ -226,7 +226,7 @@ export function RegisterForm() {
             </Label>
           </div>
           {errors.acceptTerms && (
-            <p className="text-xs text-destructive">
+            <p className="text-xs text-destructive" role="alert">
               {errors.acceptTerms.message}
             </p>
           )}
