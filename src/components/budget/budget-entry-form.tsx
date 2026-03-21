@@ -144,7 +144,7 @@ export function BudgetEntryForm({
               {...register("label")}
             />
             {errors.label && (
-              <p className="text-xs text-destructive">{errors.label.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.label.message}</p>
             )}
           </div>
 
@@ -160,7 +160,7 @@ export function BudgetEntryForm({
                 {...register("amount", { valueAsNumber: true })}
               />
               {errors.amount && (
-                <p className="text-xs text-destructive">{errors.amount.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.amount.message}</p>
               )}
             </div>
 
@@ -225,7 +225,7 @@ export function BudgetEntryForm({
           </div>
 
           {error && (
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-sm text-destructive" role="alert">{error}</p>
           )}
 
           <div className="flex justify-end gap-2">

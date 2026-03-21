@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -6,12 +7,8 @@ import {
   type InvitationFormData,
 } from "@/lib/validators/sharing";
 import type { HouseholdInvitation, HouseholdMember } from "@/types/sharing";
+import { validateUUID } from "@/lib/validators/common";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();
@@ -122,6 +119,8 @@ export async function sendInvitation(
 
 export async function cancelInvitation(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 

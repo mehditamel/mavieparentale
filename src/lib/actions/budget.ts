@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
@@ -11,12 +12,8 @@ import {
   type SavingsGoalFormData,
 } from "@/lib/validators/budget";
 import type { BudgetEntry, CafAllocation, SavingsGoal, BudgetSummary } from "@/types/budget";
+import { validateUUID } from "@/lib/validators/common";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();
@@ -109,6 +106,9 @@ export async function createBudgetEntry(formData: BudgetEntryFormData): Promise<
 }
 
 export async function updateBudgetEntry(id: string, formData: BudgetEntryFormData): Promise<ActionResult> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -134,6 +134,9 @@ export async function updateBudgetEntry(id: string, formData: BudgetEntryFormDat
 }
 
 export async function deleteBudgetEntry(id: string): Promise<ActionResult> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -210,6 +213,9 @@ export async function createCafAllocation(formData: CafAllocationFormData): Prom
 }
 
 export async function updateCafAllocation(id: string, formData: CafAllocationFormData): Promise<ActionResult> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -235,6 +241,9 @@ export async function updateCafAllocation(id: string, formData: CafAllocationFor
 }
 
 export async function deleteCafAllocation(id: string): Promise<ActionResult> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -311,6 +320,9 @@ export async function createSavingsGoal(formData: SavingsGoalFormData): Promise<
 }
 
 export async function updateSavingsGoal(id: string, formData: SavingsGoalFormData): Promise<ActionResult<SavingsGoal>> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -338,6 +350,9 @@ export async function updateSavingsGoal(id: string, formData: SavingsGoalFormDat
 }
 
 export async function deleteSavingsGoal(id: string): Promise<ActionResult> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 

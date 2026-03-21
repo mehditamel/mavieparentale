@@ -74,7 +74,7 @@ export function AddExpenseDialog({ groupId, members }: AddExpenseDialogProps) {
             <Label htmlFor="title">Description</Label>
             <Input id="title" placeholder="Ex: Restaurant" {...form.register("title")} />
             {form.formState.errors.title && (
-              <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
+              <p className="text-sm text-destructive" role="alert">{form.formState.errors.title.message}</p>
             )}
           </div>
 

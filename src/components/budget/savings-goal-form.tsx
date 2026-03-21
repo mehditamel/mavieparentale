@@ -89,7 +89,7 @@ export function SavingsGoalForm({ open, onOpenChange, goal }: SavingsGoalFormPro
               {...register("name")}
             />
             {errors.name && (
-              <p className="text-xs text-destructive">{errors.name.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.name.message}</p>
             )}
           </div>
 
@@ -105,7 +105,7 @@ export function SavingsGoalForm({ open, onOpenChange, goal }: SavingsGoalFormPro
                 {...register("targetAmount", { valueAsNumber: true })}
               />
               {errors.targetAmount && (
-                <p className="text-xs text-destructive">{errors.targetAmount.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.targetAmount.message}</p>
               )}
             </div>
 
@@ -144,7 +144,7 @@ export function SavingsGoalForm({ open, onOpenChange, goal }: SavingsGoalFormPro
           </div>
 
           {error && (
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-sm text-destructive" role="alert">{error}</p>
           )}
 
           <div className="flex justify-end gap-2">

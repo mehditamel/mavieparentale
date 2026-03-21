@@ -46,22 +46,26 @@ export default async function DashboardLayout({
       .single();
 
     if (household) {
+      // Fetch family member IDs first to avoid nested await inside Promise.all
+      const { data: members } = await supabase
+        .from("family_members")
+        .select("id")
+        .eq("household_id", household.id);
+      const memberIds = members?.map((m: { id: string }) => m.id) ?? [];
+
       const [alertsRes, expiringRes] = await Promise.all([
         supabase
           .from("proactive_alerts")
           .select("id, category", { count: "exact" })
           .eq("household_id", household.id)
           .eq("dismissed", false),
-        supabase
-          .from("identity_documents")
-          .select("id", { count: "exact", head: true })
-          .in("member_id", (
-            await supabase
-              .from("family_members")
-              .select("id")
-              .eq("household_id", household.id)
-          ).data?.map((m: { id: string }) => m.id) ?? [])
-          .or("status.eq.expired,status.eq.expiring_soon"),
+        memberIds.length > 0
+          ? supabase
+              .from("identity_documents")
+              .select("id", { count: "exact", head: true })
+              .in("member_id", memberIds)
+              .or("status.eq.expired,status.eq.expiring_soon")
+          : Promise.resolve({ count: 0, data: null }),
       ]);
 
       alertCount = alertsRes.count ?? 0;

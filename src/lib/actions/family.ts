@@ -2,13 +2,9 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { familyMemberSchema, householdSchema, type FamilyMemberFormData, type HouseholdFormData } from "@/lib/validators/family";
+import { validateUUID } from "@/lib/validators/common";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import type { FamilyMember, Household } from "@/types/family";
-
-export type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();
@@ -259,6 +255,8 @@ export async function updateFamilyMember(
 
 export async function deleteFamilyMember(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 

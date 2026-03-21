@@ -124,7 +124,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
               </SelectContent>
             </Select>
             {errors.vaccineCode && (
-              <p className="text-xs text-destructive">{errors.vaccineCode.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.vaccineCode.message}</p>
             )}
           </div>
 
@@ -139,14 +139,14 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
                 {...register("doseNumber", { valueAsNumber: true })}
               />
               {errors.doseNumber && (
-                <p className="text-xs text-destructive">{errors.doseNumber.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.doseNumber.message}</p>
               )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="administeredDate">Date d&apos;administration</Label>
               <Input id="administeredDate" type="date" {...register("administeredDate")} />
               {errors.administeredDate && (
-                <p className="text-xs text-destructive">{errors.administeredDate.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.administeredDate.message}</p>
               )}
             </div>
           </div>
@@ -166,7 +166,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
             <Textarea id="notes" {...register("notes")} placeholder="Notes..." rows={2} />
           </div>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>

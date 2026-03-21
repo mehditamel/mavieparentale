@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -13,12 +14,8 @@ import {
 } from "@/lib/validators/educational";
 import type { Activity, Schooling } from "@/types/educational";
 import type { DevelopmentMilestone, ParentJournalEntry } from "@/types/health";
+import { validateUUID } from "@/lib/validators/common";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();
@@ -30,6 +27,9 @@ async function getAuthenticatedUser() {
 // --- Activities ---
 
 export async function getActivities(memberId: string): Promise<ActionResult<Activity[]>> {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -115,6 +115,9 @@ export async function updateActivity(
   id: string,
   formData: ActivityFormData
 ): Promise<ActionResult<Activity>> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -165,6 +168,9 @@ export async function updateActivity(
 
 export async function deleteActivity(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -182,6 +188,9 @@ export async function deleteActivity(id: string): Promise<ActionResult> {
 // --- Schooling ---
 
 export async function getSchooling(memberId: string): Promise<ActionResult<Schooling[]>> {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -256,6 +265,9 @@ export async function updateSchooling(
   id: string,
   formData: SchoolingFormData
 ): Promise<ActionResult<Schooling>> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -300,6 +312,9 @@ export async function updateSchooling(
 
 export async function deleteSchooling(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -316,6 +331,9 @@ export async function deleteSchooling(id: string): Promise<ActionResult> {
 // --- Development Milestones ---
 
 export async function getMilestones(memberId: string): Promise<ActionResult<DevelopmentMilestone[]>> {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -389,6 +407,9 @@ export async function updateMilestone(
   id: string,
   formData: MilestoneFormData
 ): Promise<ActionResult<DevelopmentMilestone>> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -431,6 +452,9 @@ export async function updateMilestone(
 
 export async function deleteMilestone(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -449,6 +473,9 @@ export async function deleteMilestone(id: string): Promise<ActionResult> {
 export async function getJournalEntries(
   memberId: string
 ): Promise<ActionResult<ParentJournalEntry[]>> {
+  const uuidCheck = validateUUID(memberId);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -519,6 +546,9 @@ export async function updateJournalEntry(
   id: string,
   formData: JournalEntryFormData
 ): Promise<ActionResult<ParentJournalEntry>> {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 
@@ -559,6 +589,9 @@ export async function updateJournalEntry(
 
 export async function deleteJournalEntry(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
+
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 

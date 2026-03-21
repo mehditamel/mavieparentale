@@ -113,7 +113,7 @@ export function SchoolingForm({
               {...register("schoolYear")}
             />
             {errors.schoolYear && (
-              <p className="text-sm text-destructive">{errors.schoolYear.message}</p>
+              <p className="text-sm text-destructive" role="alert">{errors.schoolYear.message}</p>
             )}
           </div>
 
@@ -135,7 +135,7 @@ export function SchoolingForm({
               </SelectContent>
             </Select>
             {errors.level && (
-              <p className="text-sm text-destructive">{errors.level.message}</p>
+              <p className="text-sm text-destructive" role="alert">{errors.level.message}</p>
             )}
           </div>
 
@@ -147,7 +147,7 @@ export function SchoolingForm({
               {...register("establishment")}
             />
             {errors.establishment && (
-              <p className="text-sm text-destructive">{errors.establishment.message}</p>
+              <p className="text-sm text-destructive" role="alert">{errors.establishment.message}</p>
             )}
           </div>
 
@@ -179,7 +179,7 @@ export function SchoolingForm({
             />
           </div>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
 
           <DialogFooter>
             <Button

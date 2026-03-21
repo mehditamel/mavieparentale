@@ -120,7 +120,7 @@ export function SocialRightsSimulator() {
                   {...register("revenuAnnuel", { valueAsNumber: true })}
                 />
                 {errors.revenuAnnuel && (
-                  <p className="text-xs text-destructive">
+                  <p className="text-xs text-destructive" role="alert">
                     {errors.revenuAnnuel.message}
                   </p>
                 )}

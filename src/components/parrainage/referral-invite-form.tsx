@@ -47,7 +47,7 @@ export function ReferralInviteForm() {
           {...form.register("email")}
         />
         {form.formState.errors.email && (
-          <p className="text-sm text-destructive">{form.formState.errors.email.message}</p>
+          <p className="text-sm text-destructive" role="alert">{form.formState.errors.email.message}</p>
         )}
       </div>
       <Button type="submit" disabled={loading} className="w-full">

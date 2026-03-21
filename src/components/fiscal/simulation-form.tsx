@@ -92,7 +92,7 @@ export function SimulationForm({
                 {...register("revenuNetImposable", { valueAsNumber: true })}
               />
               {errors.revenuNetImposable && (
-                <p className="text-xs text-destructive">{errors.revenuNetImposable.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.revenuNetImposable.message}</p>
               )}
             </div>
 
@@ -114,7 +114,7 @@ export function SimulationForm({
                 </SelectContent>
               </Select>
               {errors.nbParts && (
-                <p className="text-xs text-destructive">{errors.nbParts.message}</p>
+                <p className="text-xs text-destructive" role="alert">{errors.nbParts.message}</p>
               )}
             </div>
           </div>

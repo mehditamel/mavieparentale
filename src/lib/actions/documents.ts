@@ -1,14 +1,11 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { documentUploadSchema, type DocumentUploadFormData } from "@/lib/validators/documents";
 import type { Document } from "@/types/budget";
+import { validateUUID } from "@/lib/validators/common";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 export interface DocumentWithMember extends Document {
   memberFirstName?: string;
@@ -187,6 +184,8 @@ export async function getDocumentSignedUrl(
 
 export async function deleteDocument(id: string): Promise<ActionResult> {
   try {
+  const uuidCheck = validateUUID(id);
+  if (!uuidCheck.valid) return { success: false, error: uuidCheck.error };
   const { user, supabase } = await getAuthenticatedUser();
   if (!user) return { success: false, error: "Non authentifié" };
 

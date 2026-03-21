@@ -123,7 +123,7 @@ export function MilestoneForm({
               </SelectContent>
             </Select>
             {errors.category && (
-              <p className="text-sm text-destructive">{errors.category.message}</p>
+              <p className="text-sm text-destructive" role="alert">{errors.category.message}</p>
             )}
           </div>
 
@@ -135,7 +135,7 @@ export function MilestoneForm({
               {...register("milestoneName")}
             />
             {errors.milestoneName && (
-              <p className="text-sm text-destructive">{errors.milestoneName.message}</p>
+              <p className="text-sm text-destructive" role="alert">{errors.milestoneName.message}</p>
             )}
           </div>
 
@@ -169,7 +169,7 @@ export function MilestoneForm({
             />
           </div>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
 
           <DialogFooter>
             <Button

@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { differenceInMonths, differenceInDays, format } from "date-fns";
@@ -6,11 +7,6 @@ import { fr } from "date-fns/locale";
 import { VACCINATION_SCHEDULE } from "@/lib/constants";
 import type { ProactiveAlert, AlertPriority, AlertCategory } from "@/types/ai";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 async function getAuthenticatedUser() {
   const supabase = createClient();

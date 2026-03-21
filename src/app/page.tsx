@@ -220,8 +220,8 @@ export default function LandingPage() {
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((feature) => (
-              <Card key={feature.title} className="card-playful border-0 shadow-md">
+            {FEATURES.map((feature, index) => (
+              <Card key={index} className="card-playful border-0 shadow-md">
                 <CardHeader>
                   <div
                     className={`mb-2 flex h-12 w-12 items-center justify-center rounded-xl ${feature.color}`}
@@ -264,8 +264,8 @@ export default function LandingPage() {
               { text: "Inscription en PS pour septembre 2028 → c'est maintenant", category: "Scolarité" },
               { text: "Tes dépenses santé ont augmenté de 40% ce mois", category: "Budget" },
               { text: "Déclaration IR dans 23 jours → lance ta simulation", category: "Fiscal" },
-            ].map((alert) => (
-              <Card key={alert.text} className="card-playful">
+            ].map((alert, index) => (
+              <Card key={index} className="card-playful">
                 <CardContent className="py-4 flex items-start gap-3">
                   <Badge variant="outline" className="shrink-0 text-xs mt-0.5">{alert.category}</Badge>
                   <p className="text-sm">{alert.text}</p>
@@ -290,8 +290,8 @@ export default function LandingPage() {
           <Card>
             <CardContent className="pt-6">
               <div className="space-y-3">
-                {COMPETITORS.map((row) => (
-                  <div key={row.feature} className="flex items-center justify-between py-3 border-b last:border-0">
+                {COMPETITORS.map((row, index) => (
+                  <div key={index} className="flex items-center justify-between py-3 border-b last:border-0">
                     <span className="text-sm font-medium flex-1">{row.feature}</span>
                     <div className="flex items-center gap-6">
                       <span className="flex items-center gap-1.5 text-sm text-warm-green font-semibold w-20 justify-center">
@@ -368,8 +368,8 @@ export default function LandingPage() {
                 role: "Parents d'un bébé de 6 mois",
                 quote: "On cherchait une crèche depuis des semaines. Avec la carte de recherche de garde, on a trouvé une micro-crèche à 10 min du boulot qu'on ne connaissait pas.",
               },
-            ].map((testimonial) => (
-              <Card key={testimonial.name} className="bg-card">
+            ].map((testimonial, index) => (
+              <Card key={index} className="bg-card">
                 <CardContent className="p-6 space-y-4">
                   <p className="text-sm leading-relaxed text-muted-foreground italic">
                     &ldquo;{testimonial.quote}&rdquo;

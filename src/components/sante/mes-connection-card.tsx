@@ -214,7 +214,7 @@ export function MESConnectionCard({ childMembers }: MESConnectionCardProps) {
                     </p>
                   )}
                   {conn.errorMessage && (
-                    <p className="text-xs text-destructive">
+                    <p className="text-xs text-destructive" role="alert">
                       {conn.errorMessage}
                     </p>
                   )}

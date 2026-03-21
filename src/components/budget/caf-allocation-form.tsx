@@ -117,7 +117,7 @@ export function CafAllocationForm({
               </SelectContent>
             </Select>
             {errors.allocationType && (
-              <p className="text-xs text-destructive">{errors.allocationType.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.allocationType.message}</p>
             )}
           </div>
 
@@ -132,7 +132,7 @@ export function CafAllocationForm({
               {...register("monthlyAmount", { valueAsNumber: true })}
             />
             {errors.monthlyAmount && (
-              <p className="text-xs text-destructive">{errors.monthlyAmount.message}</p>
+              <p className="text-xs text-destructive" role="alert">{errors.monthlyAmount.message}</p>
             )}
           </div>
 
@@ -175,7 +175,7 @@ export function CafAllocationForm({
           </div>
 
           {error && (
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-sm text-destructive" role="alert">{error}</p>
           )}
 
           <div className="flex justify-end gap-2">

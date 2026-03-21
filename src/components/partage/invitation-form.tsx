@@ -54,7 +54,7 @@ export function InvitationForm({ disabled }: InvitationFormProps) {
           {...form.register("email")}
         />
         {form.formState.errors.email && (
-          <p className="text-sm text-destructive">{form.formState.errors.email.message}</p>
+          <p className="text-sm text-destructive" role="alert">{form.formState.errors.email.message}</p>
         )}
       </div>
 

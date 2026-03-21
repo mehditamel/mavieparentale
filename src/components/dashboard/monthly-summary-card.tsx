@@ -78,7 +78,7 @@ export function MonthlySummaryCard({ hasAccess }: MonthlySummaryCardProps) {
       </CardHeader>
       <CardContent>
         {error && (
-          <p className="text-sm text-destructive">{error}</p>
+          <p className="text-sm text-destructive" role="alert">{error}</p>
         )}
 
         {summary && !error && (

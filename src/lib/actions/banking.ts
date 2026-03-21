@@ -1,4 +1,5 @@
 "use server";
+import type { ActionResult } from "@/lib/actions/safe-action";
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
@@ -7,11 +8,6 @@ import { categorizeTransactions } from "@/lib/ai/categorize-transactions";
 import type { BankTransactionFilter } from "@/lib/validators/banking";
 import { bankTransactionFilterSchema } from "@/lib/validators/banking";
 
-type ActionResult<T = void> = {
-  success: boolean;
-  data?: T;
-  error?: string;
-};
 
 export interface BankConnection {
   id: string;
@@ -73,47 +69,85 @@ async function getUserHouseholdId(
   return data?.id ?? null;
 }
 
-function mapConnection(row: Record<string, unknown>): BankConnection {
+interface BankConnectionRow {
+  id: string;
+  household_id: string;
+  bridge_item_id: string;
+  bank_name: string;
+  status: string;
+  last_sync_at: string | null;
+  created_at: string;
+}
+
+interface BankAccountRow {
+  id: string;
+  connection_id: string;
+  bridge_account_id: string;
+  name: string;
+  account_type: string | null;
+  balance: number | null;
+  currency: string;
+  last_sync_at: string | null;
+}
+
+interface BankTransactionRow {
+  id: string;
+  account_id: string;
+  bridge_transaction_id: string | null;
+  amount: number;
+  currency: string;
+  description: string | null;
+  category_auto: string | null;
+  category_user: string | null;
+  ai_category: string | null;
+  member_id: string | null;
+  transaction_date: string;
+  is_recurring: boolean;
+  tags: string[] | null;
+  created_at: string;
+}
+
+function mapConnection(row: BankConnectionRow): BankConnection {
   return {
-    id: row.id as string,
-    householdId: row.household_id as string,
-    bridgeItemId: row.bridge_item_id as string,
-    bankName: row.bank_name as string,
-    status: row.status as string,
-    lastSyncAt: (row.last_sync_at as string) ?? null,
-    createdAt: row.created_at as string,
+    id: row.id,
+    householdId: row.household_id,
+    bridgeItemId: row.bridge_item_id,
+    bankName: row.bank_name,
+    status: row.status,
+    lastSyncAt: row.last_sync_at,
+    createdAt: row.created_at,
   };
 }
 
-function mapAccount(row: Record<string, unknown>): BankAccount {
+function mapAccount(row: BankAccountRow): BankAccount {
   return {
-    id: row.id as string,
-    connectionId: row.connection_id as string,
-    bridgeAccountId: row.bridge_account_id as string,
-    name: row.name as string,
-    accountType: (row.account_type as string) ?? null,
+    id: row.id,
+    connectionId: row.connection_id,
+    bridgeAccountId: row.bridge_account_id,
+    name: row.name,
+    accountType: row.account_type,
     balance: row.balance != null ? Number(row.balance) : null,
-    currency: (row.currency as string) || "EUR",
-    lastSyncAt: (row.last_sync_at as string) ?? null,
+    currency: row.currency || "EUR",
+    lastSyncAt: row.last_sync_at,
   };
 }
 
-function mapTransaction(row: Record<string, unknown>): BankTransaction {
+function mapTransaction(row: BankTransactionRow): BankTransaction {
   return {
-    id: row.id as string,
-    accountId: row.account_id as string,
-    bridgeTransactionId: (row.bridge_transaction_id as string) ?? null,
+    id: row.id,
+    accountId: row.account_id,
+    bridgeTransactionId: row.bridge_transaction_id,
     amount: Number(row.amount),
-    currency: (row.currency as string) || "EUR",
-    description: (row.description as string) ?? null,
-    categoryAuto: (row.category_auto as string) ?? null,
-    categoryUser: (row.category_user as string) ?? null,
-    aiCategory: (row.ai_category as string) ?? null,
-    memberId: (row.member_id as string) ?? null,
-    transactionDate: row.transaction_date as string,
-    isRecurring: (row.is_recurring as boolean) ?? false,
-    tags: (row.tags as string[]) ?? [],
-    createdAt: row.created_at as string,
+    currency: row.currency || "EUR",
+    description: row.description,
+    categoryAuto: row.category_auto,
+    categoryUser: row.category_user,
+    aiCategory: row.ai_category,
+    memberId: row.member_id,
+    transactionDate: row.transaction_date,
+    isRecurring: row.is_recurring ?? false,
+    tags: row.tags ?? [],
+    createdAt: row.created_at,
   };
 }
 

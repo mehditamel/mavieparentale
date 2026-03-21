@@ -2,6 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import webpush from "web-push";
 import { rateLimit } from "@/lib/rate-limit";
+import { z } from "zod";
+import { timingSafeEqual } from "crypto";
+
+const pushBodySchema = z.object({
+  userId: z.string().uuid("userId doit être un UUID valide"),
+  title: z.string().min(1, "Le titre est requis"),
+  body: z.string().min(1, "Le contenu est requis"),
+  url: z.string().optional(),
+});
 
 function getSupabaseAdmin() {
   return createClient(
@@ -21,6 +30,19 @@ function initVapid() {
   return false;
 }
 
+function isAuthorized(authHeader: string | null): boolean {
+  const expectedToken = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!authHeader || !expectedToken) return false;
+  const token = authHeader.replace("Bearer ", "");
+  try {
+    const a = Buffer.from(token);
+    const b = Buffer.from(expectedToken);
+    return a.length === b.length && timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   const limited = rateLimit("push-send", 10, 60_000);
   if (limited) {
@@ -30,8 +52,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`) {
+  if (!isAuthorized(request.headers.get("authorization"))) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
@@ -39,7 +60,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "VAPID non configuré" }, { status: 500 });
   }
 
-  const { userId, title, body, url } = await request.json();
+  const rawBody = await request.json();
+  const parsed = pushBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: parsed.error.errors[0]?.message ?? "Données invalides" },
+      { status: 400 }
+    );
+  }
+  const { userId, title, body, url } = parsed.data;
 
   const supabaseAdmin = getSupabaseAdmin();
   const { data: subscriptions } = await supabaseAdmin
