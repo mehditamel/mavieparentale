@@ -29,6 +29,7 @@ export interface TaxSimulationResult {
   quotientFamilial: number;
   impotBrut: number;
   decote: number;
+  plafonnementQF: number;
   creditsImpot: {
     gardeEnfant: number;
     emploiDomicile: number;

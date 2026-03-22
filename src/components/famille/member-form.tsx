@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FormError } from "@/components/shared/form-error";
 import { familyMemberSchema, type FamilyMemberFormData } from "@/lib/validators/family";
 import { createFamilyMember, updateFamilyMember } from "@/lib/actions/family";
 import type { FamilyMember } from "@/types/family";
@@ -35,6 +36,7 @@ interface MemberFormProps {
 export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const lastSubmitData = useRef<FamilyMemberFormData | null>(null);
   const isEditing = !!member;
 
   const {
@@ -66,6 +68,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
   });
 
   const onSubmit = async (data: FamilyMemberFormData) => {
+    lastSubmitData.current = data;
     setIsSubmitting(true);
     setError(null);
 
@@ -83,9 +86,15 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
     }
   };
 
+  const handleRetry = () => {
+    if (lastSubmitData.current) {
+      onSubmit(lastSubmitData.current);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-label={isEditing ? "Modifier un membre" : "Ajouter un membre"}>
         <DialogHeader>
           <DialogTitle>
             {isEditing ? "Modifier un membre" : "Ajouter un membre"}
@@ -101,25 +110,40 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">Prénom</Label>
-              <Input id="firstName" {...register("firstName")} placeholder="Prénom" />
+              <Input
+                id="firstName"
+                aria-describedby={errors.firstName ? "firstName-error" : undefined}
+                {...register("firstName")}
+                placeholder="Prénom"
+              />
               {errors.firstName && (
-                <p className="text-xs text-destructive" role="alert">{errors.firstName.message}</p>
+                <p id="firstName-error" className="text-xs text-destructive" role="alert">{errors.firstName.message}</p>
               )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="lastName">Nom</Label>
-              <Input id="lastName" {...register("lastName")} placeholder="Nom" />
+              <Input
+                id="lastName"
+                aria-describedby={errors.lastName ? "lastName-error" : undefined}
+                {...register("lastName")}
+                placeholder="Nom"
+              />
               {errors.lastName && (
-                <p className="text-xs text-destructive" role="alert">{errors.lastName.message}</p>
+                <p id="lastName-error" className="text-xs text-destructive" role="alert">{errors.lastName.message}</p>
               )}
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="birthDate">Date de naissance</Label>
-            <Input id="birthDate" type="date" {...register("birthDate")} />
+            <Input
+              id="birthDate"
+              type="date"
+              aria-describedby={errors.birthDate ? "birthDate-error" : undefined}
+              {...register("birthDate")}
+            />
             {errors.birthDate && (
-              <p className="text-xs text-destructive" role="alert">{errors.birthDate.message}</p>
+              <p id="birthDate-error" className="text-xs text-destructive" role="alert">{errors.birthDate.message}</p>
             )}
           </div>
 
@@ -130,7 +154,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
                 value={watch("gender")}
                 onValueChange={(v) => setValue("gender", v as "M" | "F", { shouldValidate: true })}
               >
-                <SelectTrigger>
+                <SelectTrigger aria-describedby={errors.gender ? "gender-error" : undefined}>
                   <SelectValue placeholder="Sélectionner" />
                 </SelectTrigger>
                 <SelectContent>
@@ -139,7 +163,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
                 </SelectContent>
               </Select>
               {errors.gender && (
-                <p className="text-xs text-destructive" role="alert">{errors.gender.message}</p>
+                <p id="gender-error" className="text-xs text-destructive" role="alert">{errors.gender.message}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -148,7 +172,7 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
                 value={watch("memberType")}
                 onValueChange={(v) => setValue("memberType", v as "adult" | "child", { shouldValidate: true })}
               >
-                <SelectTrigger>
+                <SelectTrigger aria-describedby={errors.memberType ? "memberType-error" : undefined}>
                   <SelectValue placeholder="Sélectionner" />
                 </SelectTrigger>
                 <SelectContent>
@@ -157,22 +181,26 @@ export function MemberForm({ open, onOpenChange, member }: MemberFormProps) {
                 </SelectContent>
               </Select>
               {errors.memberType && (
-                <p className="text-xs text-destructive" role="alert">{errors.memberType.message}</p>
+                <p id="memberType-error" className="text-xs text-destructive" role="alert">{errors.memberType.message}</p>
               )}
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="notes">Notes (optionnel)</Label>
-            <Textarea id="notes" {...register("notes")} placeholder="Notes..." rows={2} />
+            <Textarea
+              id="notes"
+              aria-describedby={errors.notes ? "notes-error" : undefined}
+              {...register("notes")}
+              placeholder="Notes..."
+              rows={2}
+            />
             {errors.notes && (
-              <p className="text-xs text-destructive" role="alert">{errors.notes.message}</p>
+              <p id="notes-error" className="text-xs text-destructive" role="alert">{errors.notes.message}</p>
             )}
           </div>
 
-          {error && (
-            <p className="text-sm text-destructive" role="alert">{error}</p>
-          )}
+          <FormError message={error} onRetry={handleRetry} id="form-error" />
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>

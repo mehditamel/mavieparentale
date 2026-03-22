@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { callClaude, parseJsonResponse } from "@/lib/ai/anthropic";
+import { streamClaude } from "@/lib/ai/anthropic";
 import { BUDGET_COACH_PROMPT } from "@/lib/ai/prompts";
 import { PLAN_LIMITS, AI_MONTHLY_LIMITS } from "@/lib/constants";
 import { rateLimit } from "@/lib/rate-limit";
-import type { AiCoachResponse } from "@/types/ai";
 
 export async function POST() {
   const limited = rateLimit("ai-coach", 10, 60_000);
@@ -91,26 +90,31 @@ export async function POST() {
 TRANSACTIONS DU MOIS : ${JSON.stringify(budgetEntries ?? [])}
 ALLOCATIONS CAF : ${JSON.stringify(allocations ?? [])}`;
 
+  // Increment usage optimistically before streaming
+  if (usage) {
+    await supabase
+      .from("ai_usage")
+      .update({ call_count: used + 1, updated_at: new Date().toISOString() })
+      .eq("household_id", household.id)
+      .eq("month", monthStr);
+  } else {
+    await supabase.from("ai_usage").insert({
+      household_id: household.id,
+      month: monthStr,
+      call_count: 1,
+    });
+  }
+
   try {
-    const response = await callClaude(BUDGET_COACH_PROMPT, userMessage);
-    const parsed = parseJsonResponse<AiCoachResponse>(response);
+    const stream = streamClaude(BUDGET_COACH_PROMPT, userMessage);
 
-    // Increment usage
-    if (usage) {
-      await supabase
-        .from("ai_usage")
-        .update({ call_count: used + 1, updated_at: new Date().toISOString() })
-        .eq("household_id", household.id)
-        .eq("month", monthStr);
-    } else {
-      await supabase.from("ai_usage").insert({
-        household_id: household.id,
-        month: monthStr,
-        call_count: 1,
-      });
-    }
-
-    return NextResponse.json(parsed);
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "Transfer-Encoding": "chunked",
+      },
+    });
   } catch {
     return NextResponse.json(
       { error: "Le coach IA est momentanément indisponible. Réessayez dans quelques minutes." },

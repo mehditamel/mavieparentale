@@ -11,25 +11,73 @@ interface AiCoachCardProps {
   hasAccess: boolean;
 }
 
+function tryParseCoachResponse(text: string): AiCoachResponse | null {
+  try {
+    // Extract JSON from potential markdown code blocks
+    const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    const jsonString = jsonMatch ? jsonMatch[1].trim() : text.trim();
+    const parsed = JSON.parse(jsonString);
+    if (parsed && typeof parsed.message === "string") {
+      return parsed as AiCoachResponse;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export function AiCoachCard({ hasAccess }: AiCoachCardProps) {
   const [response, setResponse] = useState<AiCoachResponse | null>(null);
+  const [streamingText, setStreamingText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleAsk() {
     setLoading(true);
     setError(null);
+    setResponse(null);
+    setStreamingText("");
 
     try {
       const res = await fetch("/api/ai/coach", { method: "POST" });
-      const data = await res.json();
 
       if (!res.ok) {
+        const data = await res.json();
         setError(data.error ?? "Erreur inattendue");
         return;
       }
 
-      setResponse(data as AiCoachResponse);
+      if (!res.body) {
+        setError("Le coach IA est momentanément indisponible.");
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        accumulated += chunk;
+        setStreamingText(accumulated);
+      }
+
+      // Try parsing the complete response as JSON
+      const parsed = tryParseCoachResponse(accumulated);
+      if (parsed) {
+        setResponse(parsed);
+        setStreamingText("");
+      } else {
+        // Fallback: show raw text as message
+        setResponse({
+          message: accumulated,
+          suggestions: [],
+        });
+        setStreamingText("");
+      }
     } catch {
       setError("Le coach IA est momentanément indisponible.");
     } finally {
@@ -81,7 +129,18 @@ export function AiCoachCard({ hasAccess }: AiCoachCardProps) {
           <p className="text-sm text-destructive" role="alert">{error}</p>
         )}
 
-        {response && !error && (
+        {/* Streaming text while loading */}
+        {loading && streamingText && (
+          <div className="space-y-2">
+            <p className="text-sm leading-relaxed whitespace-pre-wrap">
+              {streamingText}
+              <span className="inline-block w-1.5 h-4 ml-0.5 bg-foreground/70 animate-pulse" />
+            </p>
+          </div>
+        )}
+
+        {/* Parsed response */}
+        {response && !error && !loading && (
           <div className="space-y-4">
             <p className="text-sm leading-relaxed">{response.message}</p>
 
@@ -109,7 +168,7 @@ export function AiCoachCard({ hasAccess }: AiCoachCardProps) {
           </div>
         )}
 
-        {!response && !error && !loading && (
+        {!response && !error && !loading && !streamingText && (
           <p className="text-sm text-muted-foreground">
             Le coach IA analyse vos dépenses et vous propose des conseils personnalisés pour optimiser votre budget familial.
           </p>

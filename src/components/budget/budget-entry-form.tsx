@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -22,6 +22,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { FormError } from "@/components/shared/form-error";
+import { useToast } from "@/hooks/use-toast";
 import { budgetEntrySchema, type BudgetEntryFormData } from "@/lib/validators/budget";
 import { createBudgetEntry, updateBudgetEntry } from "@/lib/actions/budget";
 import { BUDGET_CATEGORY_LABELS, type BudgetEntry } from "@/types/budget";
@@ -42,8 +44,10 @@ export function BudgetEntryForm({
   members,
   entry,
 }: BudgetEntryFormProps) {
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const lastSubmitData = useRef<BudgetEntryFormData | null>(null);
+  const { toast } = useToast();
   const isExpense = !entry || entry.amount >= 0;
 
   const {
@@ -81,25 +85,46 @@ export function BudgetEntryForm({
   const isRecurring = watch("isRecurring");
 
   const onSubmit = async (data: BudgetEntryFormData) => {
-    setLoading(true);
-    setError(null);
-
     const finalData = {
       ...data,
       amount: type === "expense" ? Math.abs(data.amount) : -Math.abs(data.amount),
     };
+    lastSubmitData.current = finalData;
+    setError(null);
 
-    const result = entry
-      ? await updateBudgetEntry(entry.id, finalData)
-      : await createBudgetEntry(finalData);
+    startTransition(async () => {
+      const result = entry
+        ? await updateBudgetEntry(entry.id, finalData)
+        : await createBudgetEntry(finalData);
 
-    setLoading(false);
+      if (result.success) {
+        reset();
+        onOpenChange(false);
+        toast({ title: entry ? "Entrée modifiée" : "Entrée ajoutée" });
+      } else {
+        setError(result.error ?? "Une erreur est survenue");
+        toast({ title: "Erreur", description: result.error ?? "Une erreur est survenue", variant: "destructive" });
+      }
+    });
+  };
 
-    if (result.success) {
-      reset();
-      onOpenChange(false);
-    } else {
-      setError(result.error ?? "Une erreur est survenue");
+  const handleRetry = () => {
+    if (lastSubmitData.current) {
+      setError(null);
+      const data = lastSubmitData.current;
+      startTransition(async () => {
+        const result = entry
+          ? await updateBudgetEntry(entry.id, data)
+          : await createBudgetEntry(data);
+
+        if (result.success) {
+          reset();
+          onOpenChange(false);
+          toast({ title: entry ? "Entrée modifiée" : "Entrée ajoutée" });
+        } else {
+          setError(result.error ?? "Une erreur est survenue");
+        }
+      });
     }
   };
 
@@ -107,7 +132,7 @@ export function BudgetEntryForm({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px]" aria-label={entry ? "Modifier l'entrée budget" : "Ajouter une entrée budget"}>
         <DialogHeader>
           <DialogTitle>
             {entry ? "Modifier l'entrée" : "Ajouter une entrée"}
@@ -141,10 +166,11 @@ export function BudgetEntryForm({
             <Input
               id="label"
               placeholder="Ex : Courses Leclerc, Pédiatre..."
+              aria-describedby={errors.label ? "label-error" : undefined}
               {...register("label")}
             />
             {errors.label && (
-              <p className="text-xs text-destructive" role="alert">{errors.label.message}</p>
+              <p id="label-error" className="text-xs text-destructive" role="alert">{errors.label.message}</p>
             )}
           </div>
 
@@ -157,10 +183,11 @@ export function BudgetEntryForm({
                 step="0.01"
                 min="0"
                 placeholder="0,00"
+                aria-describedby={errors.amount ? "amount-error" : undefined}
                 {...register("amount", { valueAsNumber: true })}
               />
               {errors.amount && (
-                <p className="text-xs text-destructive" role="alert">{errors.amount.message}</p>
+                <p id="amount-error" className="text-xs text-destructive" role="alert">{errors.amount.message}</p>
               )}
             </div>
 
@@ -224,9 +251,7 @@ export function BudgetEntryForm({
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-destructive" role="alert">{error}</p>
-          )}
+          <FormError message={error} onRetry={handleRetry} id="form-error" />
 
           <div className="flex justify-end gap-2">
             <Button
@@ -236,8 +261,8 @@ export function BudgetEntryForm({
             >
               Annuler
             </Button>
-            <Button type="submit" disabled={loading}>
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button type="submit" disabled={isPending}>
+              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {entry ? "Modifier" : "Ajouter"}
             </Button>
           </div>

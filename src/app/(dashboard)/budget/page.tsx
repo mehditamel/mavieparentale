@@ -25,9 +25,22 @@ export const metadata: Metadata = {
   description: "Suivez vos dépenses, allocations CAF et reste à charge",
 };
 
-export default async function BudgetPage() {
+function resolveMonth(monthParam?: string): string {
+  if (monthParam && /^\d{4}-\d{2}-01$/.test(monthParam)) {
+    const d = new Date(monthParam);
+    if (!isNaN(d.getTime())) return monthParam;
+  }
   const now = new Date();
-  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+}
+
+export default async function BudgetPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ month?: string }>;
+}) {
+  const params = await searchParams;
+  const currentMonth = resolveMonth(params.month);
 
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();

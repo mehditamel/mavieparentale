@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import {
   ChevronLeft,
   ChevronRight,
@@ -52,16 +53,20 @@ export function BudgetTabs({
   members,
   currentMonth: initialMonth,
 }: BudgetTabsProps) {
+  const router = useRouter();
+  const [, startTransition] = useTransition();
   const [showEntryForm, setShowEntryForm] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(new Date(initialMonth));
 
+  const selectedMonth = new Date(initialMonth);
   const monthStr = format(selectedMonth, "yyyy-MM-dd");
   const monthLabel = format(selectedMonth, "MMMM yyyy", { locale: fr });
 
   const navigateMonth = (direction: "prev" | "next") => {
-    setSelectedMonth((prev) =>
-      direction === "prev" ? subMonths(prev, 1) : addMonths(prev, 1)
-    );
+    const newMonth = direction === "prev" ? subMonths(selectedMonth, 1) : addMonths(selectedMonth, 1);
+    const newMonthStr = format(newMonth, "yyyy-MM-dd");
+    startTransition(() => {
+      router.replace(`/budget?month=${newMonthStr}`, { scroll: false });
+    });
   };
 
   const restAVivre = summary.netBalance;
