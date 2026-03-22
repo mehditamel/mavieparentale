@@ -1,13 +1,15 @@
 import { IR_BRACKETS_2025, TAX_CREDITS } from "@/lib/constants";
 import type { TaxSimulationInput, TaxSimulationResult } from "@/types/fiscal";
 
-export function simulateIR(input: TaxSimulationInput): TaxSimulationResult {
-  const { revenuNetImposable, nbParts } = input;
+// Plafond du quotient familial : 1 759 € par demi-part supplémentaire (barème 2025)
+const QF_CAP_PER_HALF_PART = 1759;
 
-  // Quotient familial
+/**
+ * Compute raw tax (before decote and credits) for a given revenu and number of parts.
+ * Extracted to allow computing tax with different part counts for QF capping.
+ */
+function computeRawTax(revenuNetImposable: number, nbParts: number): number {
   const quotientFamilial = revenuNetImposable / nbParts;
-
-  // Calculate tax per part using progressive brackets
   let taxPerPart = 0;
   for (const bracket of IR_BRACKETS_2025) {
     if (quotientFamilial <= bracket.min) break;
@@ -15,9 +17,58 @@ export function simulateIR(input: TaxSimulationInput): TaxSimulationResult {
       Math.min(quotientFamilial, bracket.max) - bracket.min;
     taxPerPart += taxableInBracket * bracket.rate;
   }
+  return Math.round(taxPerPart * nbParts);
+}
 
-  // Gross tax = tax per part * number of parts
-  let impotBrut = Math.round(taxPerPart * nbParts);
+export function simulateIR(input: TaxSimulationInput): TaxSimulationResult {
+  const revenuNetImposable = Math.max(0, input.revenuNetImposable);
+  const nbParts = Math.max(1, input.nbParts);
+
+  // Early return for zero income
+  if (revenuNetImposable <= 0) {
+    return {
+      revenuNetImposable: 0,
+      nbParts,
+      quotientFamilial: 0,
+      impotBrut: 0,
+      decote: 0,
+      plafonnementQF: 0,
+      creditsImpot: {
+        gardeEnfant: 0,
+        emploiDomicile: 0,
+        dons: 0,
+        donsAide: 0,
+        total: 0,
+      },
+      impotNet: 0,
+      tmi: 0,
+      tauxEffectif: 0,
+      revenueParPart: 0,
+    };
+  }
+
+  // Quotient familial
+  const quotientFamilial = revenuNetImposable / nbParts;
+
+  // Gross tax with actual parts
+  let impotBrut = computeRawTax(revenuNetImposable, nbParts);
+
+  // Plafonnement du quotient familial
+  // Base parts: 2 for couple, 1 for single
+  const baseParts = nbParts > 1 ? 2 : 1;
+  let plafonnementQF = 0;
+
+  if (nbParts > baseParts) {
+    const taxWithBaseParts = computeRawTax(revenuNetImposable, baseParts);
+    const benefit = taxWithBaseParts - impotBrut;
+    const extraHalfParts = (nbParts - baseParts) / 0.5;
+    const maxBenefit = QF_CAP_PER_HALF_PART * extraHalfParts;
+
+    if (benefit > maxBenefit) {
+      plafonnementQF = Math.round(benefit - maxBenefit);
+      impotBrut = taxWithBaseParts - Math.round(maxBenefit);
+    }
+  }
 
   // Decote (for low incomes)
   let decote = 0;
@@ -82,6 +133,7 @@ export function simulateIR(input: TaxSimulationInput): TaxSimulationResult {
     quotientFamilial: Math.round(quotientFamilial),
     impotBrut,
     decote,
+    plafonnementQF,
     creditsImpot: {
       gardeEnfant: Math.round(gardeEnfant),
       emploiDomicile: Math.round(emploiDomicile),

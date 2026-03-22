@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -21,6 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FormError } from "@/components/shared/form-error";
+import { useToast } from "@/hooks/use-toast";
 import {
   identityDocumentSchema,
   type IdentityDocumentFormData,
@@ -46,8 +48,10 @@ export function IdentityDocumentForm({
   members,
   document,
 }: IdentityDocumentFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const lastSubmitData = useRef<IdentityDocumentFormData | null>(null);
+  const { toast } = useToast();
   const isEditing = !!document;
 
   const {
@@ -79,20 +83,28 @@ export function IdentityDocumentForm({
   });
 
   const onSubmit = async (data: IdentityDocumentFormData) => {
-    setIsSubmitting(true);
+    lastSubmitData.current = data;
     setError(null);
 
-    const result = isEditing
-      ? await updateIdentityDocument(document.id, data)
-      : await createIdentityDocument(data);
+    startTransition(async () => {
+      const result = isEditing
+        ? await updateIdentityDocument(document.id, data)
+        : await createIdentityDocument(data);
 
-    setIsSubmitting(false);
+      if (result.success) {
+        reset();
+        onOpenChange(false);
+        toast({ title: isEditing ? "Document modifié" : "Document ajouté" });
+      } else {
+        setError(result.error ?? "Une erreur est survenue");
+        toast({ title: "Erreur", description: result.error ?? "Une erreur est survenue", variant: "destructive" });
+      }
+    });
+  };
 
-    if (result.success) {
-      reset();
-      onOpenChange(false);
-    } else {
-      setError(result.error ?? "Une erreur est survenue");
+  const handleRetry = () => {
+    if (lastSubmitData.current) {
+      onSubmit(lastSubmitData.current);
     }
   };
 
@@ -100,7 +112,7 @@ export function IdentityDocumentForm({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-label={isEditing ? "Modifier le document" : "Ajouter un document d'identité"}>
         <DialogHeader>
           <DialogTitle>
             {isEditing ? "Modifier le document" : "Ajouter un document d'identité"}
@@ -119,7 +131,7 @@ export function IdentityDocumentForm({
               value={watch("memberId")}
               onValueChange={(v) => setValue("memberId", v, { shouldValidate: true })}
             >
-              <SelectTrigger>
+              <SelectTrigger aria-describedby={errors.memberId ? "memberId-error" : undefined}>
                 <SelectValue placeholder="Sélectionner un membre" />
               </SelectTrigger>
               <SelectContent>
@@ -131,7 +143,7 @@ export function IdentityDocumentForm({
               </SelectContent>
             </Select>
             {errors.memberId && (
-              <p className="text-xs text-destructive" role="alert">{errors.memberId.message}</p>
+              <p id="memberId-error" className="text-xs text-destructive" role="alert">{errors.memberId.message}</p>
             )}
           </div>
 
@@ -141,7 +153,7 @@ export function IdentityDocumentForm({
               value={watch("documentType")}
               onValueChange={(v) => setValue("documentType", v as DocumentType, { shouldValidate: true })}
             >
-              <SelectTrigger>
+              <SelectTrigger aria-describedby={errors.documentType ? "documentType-error" : undefined}>
                 <SelectValue placeholder="Sélectionner un type" />
               </SelectTrigger>
               <SelectContent>
@@ -153,7 +165,7 @@ export function IdentityDocumentForm({
               </SelectContent>
             </Select>
             {errors.documentType && (
-              <p className="text-xs text-destructive" role="alert">{errors.documentType.message}</p>
+              <p id="documentType-error" className="text-xs text-destructive" role="alert">{errors.documentType.message}</p>
             )}
           </div>
 
@@ -178,14 +190,14 @@ export function IdentityDocumentForm({
             <Input id="issuingAuthority" {...register("issuingAuthority")} placeholder="Ex: Préfecture de..." />
           </div>
 
-          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
+          <FormError message={error} onRetry={handleRetry} id="form-error" />
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Annuler
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "En cours..." : isEditing ? "Modifier" : "Ajouter"}
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "En cours..." : isEditing ? "Modifier" : "Ajouter"}
             </Button>
           </DialogFooter>
         </form>

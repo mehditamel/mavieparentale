@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FormError } from "@/components/shared/form-error";
 import { medicalAppointmentSchema, type MedicalAppointmentFormData } from "@/lib/validators/health";
 import { createMedicalAppointment } from "@/lib/actions/health";
 
@@ -47,6 +48,7 @@ const APPOINTMENT_TYPES = [
 export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const lastSubmitData = useRef<MedicalAppointmentFormData | null>(null);
 
   const {
     register,
@@ -68,6 +70,7 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
   });
 
   const onSubmit = async (data: MedicalAppointmentFormData) => {
+    lastSubmitData.current = data;
     setIsSubmitting(true);
     setError(null);
 
@@ -82,9 +85,15 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
     }
   };
 
+  const handleRetry = () => {
+    if (lastSubmitData.current) {
+      onSubmit(lastSubmitData.current);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-label="Ajouter un rendez-vous médical">
         <DialogHeader>
           <DialogTitle>Ajouter un rendez-vous</DialogTitle>
           <DialogDescription>
@@ -99,7 +108,7 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
               value={watch("appointmentType")}
               onValueChange={(v) => setValue("appointmentType", v, { shouldValidate: true })}
             >
-              <SelectTrigger>
+              <SelectTrigger aria-describedby={errors.appointmentType ? "appointmentType-error" : undefined}>
                 <SelectValue placeholder="Sélectionner" />
               </SelectTrigger>
               <SelectContent>
@@ -111,15 +120,20 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
               </SelectContent>
             </Select>
             {errors.appointmentType && (
-              <p className="text-xs text-destructive" role="alert">{errors.appointmentType.message}</p>
+              <p id="appointmentType-error" className="text-xs text-destructive" role="alert">{errors.appointmentType.message}</p>
             )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="appointmentDate">Date et heure</Label>
-            <Input id="appointmentDate" type="datetime-local" {...register("appointmentDate")} />
+            <Input
+              id="appointmentDate"
+              type="datetime-local"
+              aria-describedby={errors.appointmentDate ? "appointmentDate-error" : undefined}
+              {...register("appointmentDate")}
+            />
             {errors.appointmentDate && (
-              <p className="text-xs text-destructive" role="alert">{errors.appointmentDate.message}</p>
+              <p id="appointmentDate-error" className="text-xs text-destructive" role="alert">{errors.appointmentDate.message}</p>
             )}
           </div>
 
@@ -138,7 +152,7 @@ export function AppointmentForm({ open, onOpenChange, memberId }: AppointmentFor
             <Textarea id="notes" {...register("notes")} placeholder="Notes..." rows={2} />
           </div>
 
-          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
+          <FormError message={error} onRetry={handleRetry} id="form-error" />
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>

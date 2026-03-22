@@ -71,6 +71,79 @@ describe("simulateIR", () => {
     });
   });
 
+  describe("cas limites", () => {
+    it("retourne 0 pour un revenu négatif", () => {
+      const result = simulateIR(input({ revenuNetImposable: -5000 }));
+      expect(result.impotNet).toBe(0);
+      expect(result.impotBrut).toBe(0);
+      expect(result.quotientFamilial).toBe(0);
+      expect(result.tmi).toBe(0);
+      expect(result.tauxEffectif).toBe(0);
+      expect(result.revenuNetImposable).toBe(0);
+    });
+
+    it("coerce nbParts < 1 à 1", () => {
+      const result = simulateIR(input({ revenuNetImposable: 30000, nbParts: 0.5 }));
+      expect(result.nbParts).toBe(1);
+      expect(result.quotientFamilial).toBe(30000);
+    });
+
+    it("coerce nbParts = 0 à 1", () => {
+      const result = simulateIR(input({ revenuNetImposable: 30000, nbParts: 0 }));
+      expect(result.nbParts).toBe(1);
+    });
+
+    it("gère un revenu très élevé (500K, 1 part) — TMI 45%", () => {
+      const result = simulateIR(input({ revenuNetImposable: 500000, nbParts: 1 }));
+      expect(result.tmi).toBe(45);
+      // Manual calculation:
+      // 0-11294: 0
+      // 11295-28797: (28797-11295)*0.11 = 1925.22
+      // 28798-82341: (82341-28798)*0.30 = 16062.90
+      // 82342-177106: (177106-82342)*0.41 = 38853.24
+      // 177107-500000: (500000-177107)*0.45 = 145302.15
+      // Total per part = 202143.51 → rounded = 202144
+      expect(result.impotBrut).toBeGreaterThan(200000);
+      expect(result.tauxEffectif).toBeGreaterThan(30);
+    });
+  });
+
+  describe("plafonnement du quotient familial", () => {
+    it("plafonne le QF pour couple + 2 enfants (3 parts) à 120K", () => {
+      const result = simulateIR(input({ revenuNetImposable: 120000, nbParts: 3 }));
+      // Extra half-parts = (3 - 2) / 0.5 = 2
+      // Max benefit = 1759 * 2 = 3518
+      // Tax with 2 parts (base couple):
+      const resultBase = simulateIR(input({ revenuNetImposable: 120000, nbParts: 2 }));
+      // The tax with 3 parts should not be more than 3518 less than tax with 2 parts
+      // (before decote, but plafonnement applies to impotBrut before decote)
+      expect(result.plafonnementQF).toBeGreaterThan(0);
+    });
+
+    it("ne plafonne pas pour revenus modérés", () => {
+      const result = simulateIR(input({ revenuNetImposable: 50000, nbParts: 2.5 }));
+      // QF = 20000, benefit of 0.5 part is small
+      expect(result.plafonnementQF).toBe(0);
+    });
+
+    it("ne plafonne pas quand nbParts == baseParts", () => {
+      const result = simulateIR(input({ revenuNetImposable: 100000, nbParts: 2 }));
+      expect(result.plafonnementQF).toBe(0);
+    });
+
+    it("plafonne pour hauts revenus avec 4 parts", () => {
+      const result = simulateIR(input({ revenuNetImposable: 200000, nbParts: 4 }));
+      // Extra half-parts = (4 - 2) / 0.5 = 4
+      // Max benefit = 1759 * 4 = 7036
+      expect(result.plafonnementQF).toBeGreaterThan(0);
+    });
+
+    it("ne plafonne pas pour célibataire sans enfant", () => {
+      const result = simulateIR(input({ revenuNetImposable: 100000, nbParts: 1 }));
+      expect(result.plafonnementQF).toBe(0);
+    });
+  });
+
   describe("décote", () => {
     it("applique la décote pour célibataire à faible impôt", () => {
       const result = simulateIR(input({ revenuNetImposable: 18000, nbParts: 1 }));
@@ -195,6 +268,7 @@ describe("simulateIR", () => {
       expect(result).toHaveProperty("quotientFamilial");
       expect(result).toHaveProperty("impotBrut");
       expect(result).toHaveProperty("decote");
+      expect(result).toHaveProperty("plafonnementQF");
       expect(result).toHaveProperty("creditsImpot");
       expect(result).toHaveProperty("impotNet");
       expect(result).toHaveProperty("tmi");

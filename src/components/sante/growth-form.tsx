@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { FormError } from "@/components/shared/form-error";
 import { growthMeasurementSchema, type GrowthMeasurementFormData } from "@/lib/validators/health";
 import { createGrowthMeasurement } from "@/lib/actions/health";
 
@@ -27,6 +28,7 @@ interface GrowthFormProps {
 export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const lastSubmitData = useRef<GrowthMeasurementFormData | null>(null);
 
   const {
     register,
@@ -46,6 +48,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
   });
 
   const onSubmit = async (data: GrowthMeasurementFormData) => {
+    lastSubmitData.current = data;
     setIsSubmitting(true);
     setError(null);
 
@@ -60,9 +63,15 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
     }
   };
 
+  const handleRetry = () => {
+    if (lastSubmitData.current) {
+      onSubmit(lastSubmitData.current);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-label="Ajouter une mesure de croissance">
         <DialogHeader>
           <DialogTitle>Ajouter une mesure</DialogTitle>
           <DialogDescription>
@@ -73,9 +82,14 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="measurementDate">Date de mesure</Label>
-            <Input id="measurementDate" type="date" {...register("measurementDate")} />
+            <Input
+              id="measurementDate"
+              type="date"
+              aria-describedby={errors.measurementDate ? "measurementDate-error" : undefined}
+              {...register("measurementDate")}
+            />
             {errors.measurementDate && (
-              <p className="text-xs text-destructive" role="alert">{errors.measurementDate.message}</p>
+              <p id="measurementDate-error" className="text-xs text-destructive" role="alert">{errors.measurementDate.message}</p>
             )}
           </div>
 
@@ -117,7 +131,7 @@ export function GrowthForm({ open, onOpenChange, memberId }: GrowthFormProps) {
             <Textarea id="notes" {...register("notes")} placeholder="Notes..." rows={2} />
           </div>
 
-          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
+          <FormError message={error} onRetry={handleRetry} id="form-error" />
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>

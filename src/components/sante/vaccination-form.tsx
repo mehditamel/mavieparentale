@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,6 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FormError } from "@/components/shared/form-error";
+import { useToast } from "@/hooks/use-toast";
 import { vaccinationSchema, type VaccinationFormData } from "@/lib/validators/health";
 import { createVaccination } from "@/lib/actions/health";
 import { VACCINATION_SCHEDULE } from "@/lib/constants";
@@ -38,8 +40,10 @@ interface VaccinationFormProps {
 }
 
 export function VaccinationForm({ open, onOpenChange, memberId, prefill }: VaccinationFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const lastSubmitData = useRef<VaccinationFormData | null>(null);
+  const { toast } = useToast();
 
   const {
     register,
@@ -81,23 +85,32 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
   };
 
   const onSubmit = async (data: VaccinationFormData) => {
-    setIsSubmitting(true);
+    lastSubmitData.current = data;
     setError(null);
 
-    const result = await createVaccination(data);
-    setIsSubmitting(false);
+    startTransition(async () => {
+      const result = await createVaccination(data);
 
-    if (result.success) {
-      reset();
-      onOpenChange(false);
-    } else {
-      setError(result.error ?? "Une erreur est survenue");
+      if (result.success) {
+        reset();
+        onOpenChange(false);
+        toast({ title: "Vaccin enregistré" });
+      } else {
+        setError(result.error ?? "Une erreur est survenue");
+        toast({ title: "Erreur", description: result.error ?? "Une erreur est survenue", variant: "destructive" });
+      }
+    });
+  };
+
+  const handleRetry = () => {
+    if (lastSubmitData.current) {
+      onSubmit(lastSubmitData.current);
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-label="Enregistrer un vaccin">
         <DialogHeader>
           <DialogTitle>Enregistrer un vaccin</DialogTitle>
           <DialogDescription>
@@ -112,7 +125,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
               value={selectedVaccineCode}
               onValueChange={handleVaccineChange}
             >
-              <SelectTrigger>
+              <SelectTrigger aria-describedby={errors.vaccineCode ? "vaccineCode-error" : undefined}>
                 <SelectValue placeholder="Sélectionner un vaccin" />
               </SelectTrigger>
               <SelectContent>
@@ -124,7 +137,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
               </SelectContent>
             </Select>
             {errors.vaccineCode && (
-              <p className="text-xs text-destructive" role="alert">{errors.vaccineCode.message}</p>
+              <p id="vaccineCode-error" className="text-xs text-destructive" role="alert">{errors.vaccineCode.message}</p>
             )}
           </div>
 
@@ -136,17 +149,23 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
                 type="number"
                 min={1}
                 max={5}
+                aria-describedby={errors.doseNumber ? "doseNumber-error" : undefined}
                 {...register("doseNumber", { valueAsNumber: true })}
               />
               {errors.doseNumber && (
-                <p className="text-xs text-destructive" role="alert">{errors.doseNumber.message}</p>
+                <p id="doseNumber-error" className="text-xs text-destructive" role="alert">{errors.doseNumber.message}</p>
               )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="administeredDate">Date d&apos;administration</Label>
-              <Input id="administeredDate" type="date" {...register("administeredDate")} />
+              <Input
+                id="administeredDate"
+                type="date"
+                aria-describedby={errors.administeredDate ? "administeredDate-error" : undefined}
+                {...register("administeredDate")}
+              />
               {errors.administeredDate && (
-                <p className="text-xs text-destructive" role="alert">{errors.administeredDate.message}</p>
+                <p id="administeredDate-error" className="text-xs text-destructive" role="alert">{errors.administeredDate.message}</p>
               )}
             </div>
           </div>
@@ -166,14 +185,14 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
             <Textarea id="notes" {...register("notes")} placeholder="Notes..." rows={2} />
           </div>
 
-          {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
+          <FormError message={error} onRetry={handleRetry} id="form-error" />
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Annuler
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "En cours..." : "Enregistrer"}
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "En cours..." : "Enregistrer"}
             </Button>
           </DialogFooter>
         </form>

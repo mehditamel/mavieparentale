@@ -212,6 +212,58 @@ describe("simulateCaf", () => {
     });
   });
 
+  describe("cas limites", () => {
+    it("gère un revenu de 0 sans erreur", () => {
+      const result = simulateCaf(input({
+        revenuNetCatAnnuel: 0,
+        nbEnfantsACharge: 1,
+        ageEnfants: [1],
+      }));
+      expect(result.totalMensuel).toBeGreaterThanOrEqual(0);
+      expect(result.pajeAllocationBase).toBe(184.81);
+    });
+
+    it("gère un revenu négatif comme 0", () => {
+      const result = simulateCaf(input({
+        revenuNetCatAnnuel: -5000,
+        nbEnfantsACharge: 1,
+        ageEnfants: [1],
+      }));
+      expect(result.totalMensuel).toBeGreaterThanOrEqual(0);
+    });
+
+    it("retourne 0 pour toutes les allocations enfant avec 0 enfants", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 0,
+        ageEnfants: [],
+      }));
+      expect(result.allocationsFamiliales).toBe(0);
+      expect(result.pajeAllocationBase).toBe(0);
+      expect(result.pajeNaissance).toBe(0);
+      expect(result.cmg).toBe(0);
+      expect(result.allocationRentree).toBe(0);
+    });
+
+    it("gère un enfant exactement à 6 ans pour l'ARS", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 1,
+        ageEnfants: [6],
+        revenuNetCatAnnuel: 25000,
+      }));
+      expect(result.allocationRentree).toBe(416.40);
+    });
+
+    it("gère un enfant exactement à 3 ans pour la PAJE", () => {
+      const result = simulateCaf(input({
+        nbEnfantsACharge: 1,
+        ageEnfants: [3],
+        revenuNetCatAnnuel: 30000,
+      }));
+      // Age 3 = not < 3, so no PAJE base
+      expect(result.pajeAllocationBase).toBe(0);
+    });
+  });
+
   describe("totaux", () => {
     it("calcule le total mensuel correctement", () => {
       const result = simulateCaf(input({

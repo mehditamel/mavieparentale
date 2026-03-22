@@ -41,6 +41,40 @@ export async function callClaude(
   );
 }
 
+export function streamClaude(
+  systemPrompt: string,
+  userMessage: string,
+  maxTokens: number = 1024
+): ReadableStream<Uint8Array> {
+  const anthropic = getClient();
+  const encoder = new TextEncoder();
+
+  return new ReadableStream({
+    async start(controller) {
+      try {
+        const stream = anthropic.messages.stream({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: maxTokens,
+          system: systemPrompt,
+          messages: [{ role: "user", content: userMessage }],
+        });
+
+        for await (const event of stream) {
+          if (
+            event.type === "content_block_delta" &&
+            event.delta.type === "text_delta"
+          ) {
+            controller.enqueue(encoder.encode(event.delta.text));
+          }
+        }
+        controller.close();
+      } catch (err) {
+        controller.error(err);
+      }
+    },
+  });
+}
+
 export function parseJsonResponse<T>(response: string): T {
   // Extract JSON from potential markdown code blocks
   const jsonMatch = response.match(/```(?:json)?\s*([\s\S]*?)```/);
