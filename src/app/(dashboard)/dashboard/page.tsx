@@ -51,6 +51,9 @@ export const metadata: Metadata = {
   description: "Vue d'ensemble de votre foyer : alertes, vaccins, documents et actions rapides",
 };
 
+// ISR: revalidate dashboard every 60 seconds
+export const revalidate = 60;
+
 const GREETING_MESSAGES = [
   "On gere ta tribu comme des pros",
   "Voici ce qui se passe chez toi",
