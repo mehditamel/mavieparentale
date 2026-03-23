@@ -39,6 +39,14 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const article = getArticleBySlug(params.slug);
   if (!article) notFound();
 
+  const allArticles = getAllArticles();
+  const currentIndex = allArticles.findIndex((a) => a.slug === article.slug);
+  const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
+  const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
+  const relatedArticles = allArticles
+    .filter((a) => a.category === article.category && a.slug !== article.slug)
+    .slice(0, 3);
+
   // Simple markdown-like rendering (paragraphs, headers, bold, lists, links, tables)
   const sections = article.content.split("\n\n").map((block, i) => {
     const trimmed = block.trim();
@@ -161,7 +169,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       <Card className="mt-12 bg-warm-orange/5 border-warm-orange/20">
         <CardContent className="pt-6 text-center space-y-3">
           <p className="font-medium">
-            Gérez la santé, le budget et la fiscalité de votre famille
+            Gerez la sante, le budget et la fiscalite de votre famille
           </p>
           <div className="flex gap-3 justify-center">
             <Link href="/outils">
@@ -169,12 +177,66 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             </Link>
             <Link href="/register">
               <Button>
-                Créer mon compte <ArrowRight className="w-4 h-4 ml-2" />
+                Creer mon compte <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
           </div>
         </CardContent>
       </Card>
+
+      {/* Related articles */}
+      {relatedArticles.length > 0 && (
+        <div className="mt-10">
+          <h3 className="text-lg font-semibold mb-4">
+            Articles dans la meme categorie
+          </h3>
+          <div className="grid gap-3">
+            {relatedArticles.map((related) => (
+              <Link
+                key={related.slug}
+                href={`/blog/${related.slug}`}
+                className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{related.title}</p>
+                  <p className="text-xs text-muted-foreground">{related.readingTime}</p>
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Prev/Next navigation */}
+      <nav className="flex gap-4 mt-10 border-t pt-6" aria-label="Articles adjacents">
+        {prevArticle ? (
+          <Link href={`/blog/${prevArticle.slug}`} className="flex-1 group">
+            <p className="text-xs text-muted-foreground mb-1">
+              <ArrowLeft className="inline h-3 w-3 mr-1" />
+              Precedent
+            </p>
+            <p className="text-sm font-medium group-hover:text-warm-orange transition-colors line-clamp-2">
+              {prevArticle.title}
+            </p>
+          </Link>
+        ) : (
+          <div className="flex-1" />
+        )}
+        {nextArticle ? (
+          <Link href={`/blog/${nextArticle.slug}`} className="flex-1 text-right group">
+            <p className="text-xs text-muted-foreground mb-1">
+              Suivant
+              <ArrowRight className="inline h-3 w-3 ml-1" />
+            </p>
+            <p className="text-sm font-medium group-hover:text-warm-orange transition-colors line-clamp-2">
+              {nextArticle.title}
+            </p>
+          </Link>
+        ) : (
+          <div className="flex-1" />
+        )}
+      </nav>
     </article>
   );
 }

@@ -66,7 +66,17 @@ Pas de panique ! Il n'est jamais trop tard pour rattraper un retard vaccinal. Co
 
 ### Suivi avec Darons
 
-Notre outil [calendrier vaccinal interactif](/outils/calendrier-vaccinal) te permet de visualiser les dates de vaccin personnalisées pour ton enfant. Crée un compte pour recevoir des rappels automatiques.`,
+Notre outil [calendrier vaccinal interactif](/outils/calendrier-vaccinal) te permet de visualiser les dates de vaccin personnalisées pour ton enfant. Crée un compte pour recevoir des rappels automatiques.
+
+### FAQ — Questions fréquentes
+
+**Mon bébé est prématuré, le calendrier change-t-il ?**
+Non, les vaccins suivent l'âge civil (date de naissance), pas l'âge corrigé. Un bébé né à 35 SA recevra ses premiers vaccins à 2 mois comme les autres.
+
+**Peut-on faire plusieurs vaccins le même jour ?**
+Oui, les vaccins combinés (hexavalent par exemple) permettent de protéger contre plusieurs maladies en une seule injection. C'est sûr et recommandé.
+
+**Voir aussi :** [Les 20 examens de santé obligatoires](/blog/20-examens-sante-obligatoires-bebe) | [Checklist démarches après naissance](/blog/checklist-naissance-demarches) | [Coût d'un enfant de 0 à 18 ans](/blog/cout-enfant-0-18-ans-france)`,
   },
   {
     slug: "credit-impot-garde-enfant-2025",
@@ -112,7 +122,9 @@ Inscrivez vos frais de garde dans la case **7GA** (1er enfant) ou **7GB** (2e en
 
 ### Simulez votre impôt
 
-Utilisez notre [simulateur d'impôt gratuit](/outils/simulateur-ir) pour calculer l'impact du crédit d'impôt garde d'enfant sur votre impôt.`,
+Utilisez notre [simulateur d'impôt gratuit](/outils/simulateur-ir) pour calculer l'impact du crédit d'impôt garde d'enfant sur votre impôt.
+
+**Voir aussi :** [Crèche ou assistante maternelle : le vrai coût](/blog/creche-ou-assistante-maternelle-comparatif) | [5 crédits d'impôt que les parents oublient](/blog/5-credits-impot-parents-oublient) | [Quotient familial : comment ça marche](/blog/quotient-familial-comment-ca-marche)`,
   },
   {
     slug: "creche-ou-assistante-maternelle-comparatif",

@@ -100,17 +100,50 @@ export default async function GroupDetailPage({ params }: Props) {
         </Card>
       </div>
 
+      {/* Members */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>Membres</CardTitle>
+            <AddMemberDialog groupId={group.id} />
+          </div>
+        </CardHeader>
+        <CardContent>
+          {members.length > 0 ? (
+            <div className="grid gap-2 sm:grid-cols-2">
+              {members.filter((m) => m.isActive).map((member) => {
+                const memberBalance = balances.find((b) => b.memberId === member.id);
+                const balance = memberBalance?.balance ?? 0;
+                return (
+                  <div key={member.id} className="flex items-center justify-between rounded-lg bg-muted/50 p-3">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-warm-blue/10 text-warm-blue text-xs font-semibold">
+                        {(member.displayName ?? member.externalName ?? "?").charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium">{member.displayName ?? member.externalName ?? "Membre"}</p>
+                        {member.email && <p className="text-xs text-muted-foreground">{member.email}</p>}
+                      </div>
+                    </div>
+                    <span className={`text-sm font-semibold ${balance > 0 ? "text-warm-green" : balance < 0 ? "text-warm-red" : "text-muted-foreground"}`}>
+                      {balance > 0 ? "+" : ""}{balance.toLocaleString("fr-FR", { minimumFractionDigits: 2 })} EUR
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground text-center py-4">Aucun membre.</p>
+          )}
+        </CardContent>
+      </Card>
+
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Balances */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Équilibres</CardTitle>
-              <AddMemberDialog groupId={group.id} />
-            </div>
-            <CardDescription>
-              Qui doit quoi à qui
-            </CardDescription>
+            <CardTitle>Equilibres</CardTitle>
+            <CardDescription>Qui doit quoi a qui</CardDescription>
           </CardHeader>
           <CardContent>
             <BalanceOverview
@@ -125,11 +158,11 @@ export default async function GroupDetailPage({ params }: Props) {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Dépenses</CardTitle>
+              <CardTitle>Depenses</CardTitle>
               <AddExpenseDialog groupId={group.id} members={members} />
             </div>
             <CardDescription>
-              {expenses.length} dépense{expenses.length > 1 ? "s" : ""}
+              {expenses.length} depense{expenses.length > 1 ? "s" : ""}
             </CardDescription>
           </CardHeader>
           <CardContent>
