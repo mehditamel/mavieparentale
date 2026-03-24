@@ -48,6 +48,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const article = getArticleBySlug(params.slug);
   if (!article) return { title: "Article introuvable" };
 
+  const ogImageUrl = `https://darons.app/api/og?title=${encodeURIComponent(article.title)}&category=${encodeURIComponent(article.category)}`;
+
   return {
     title: article.title,
     description: article.description,
@@ -56,11 +58,20 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       description: article.description,
       type: "article",
       publishedTime: article.date,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: `${article.title} — Darons`,
       description: article.description,
+      images: [ogImageUrl],
     },
     alternates: {
       canonical: `https://darons.app/blog/${params.slug}`,
