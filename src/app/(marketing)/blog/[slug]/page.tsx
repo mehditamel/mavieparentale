@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
+import { Calendar, ArrowLeft, ArrowRight, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,6 +11,27 @@ import { ShareButtons } from "@/components/blog/share-buttons";
 import { ReadingProgress } from "@/components/blog/reading-progress";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { formatDate } from "@/lib/utils";
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+const CATEGORY_TOOL_MAP: Record<string, { href: string; label: string }> = {
+  "Santé": { href: "/outils/calendrier-vaccinal", label: "Calendrier vaccinal interactif" },
+  "Sante": { href: "/outils/calendrier-vaccinal", label: "Calendrier vaccinal interactif" },
+  "Fiscal": { href: "/outils/simulateur-ir", label: "Simuler ton impot" },
+  "Garde": { href: "/outils/simulateur-garde", label: "Calculer le cout de garde" },
+  "Budget": { href: "/outils/simulateur-budget", label: "Ton budget familial" },
+  "Démarches": { href: "/outils/checklist-naissance", label: "Checklist demarches naissance" },
+  "Demarches": { href: "/outils/checklist-naissance", label: "Checklist demarches naissance" },
+  "Identité": { href: "/outils/checklist-naissance", label: "Checklist documents" },
+  "Développement": { href: "/outils/jalons-developpement", label: "Jalons de developpement" },
+};
 
 interface BlogPostPageProps {
   params: { slug: string };
@@ -53,21 +74,37 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { previous: prevArticle, next: nextArticle } = getAdjacentArticles(article.slug);
   const relatedArticles = getRelatedArticles(article.slug, 3);
 
+  // Collect headings for table of contents
+  const headings: { level: number; text: string; id: string }[] = [];
+  const blocks = article.content.split("\n\n");
+  for (const block of blocks) {
+    const trimmed = block.trim();
+    if (trimmed.startsWith("### ")) {
+      const text = trimmed.slice(4);
+      headings.push({ level: 3, text, id: slugify(text) });
+    } else if (trimmed.startsWith("## ")) {
+      const text = trimmed.slice(3);
+      headings.push({ level: 2, text, id: slugify(text) });
+    }
+  }
+
   // Simple markdown-like rendering (paragraphs, headers, bold, lists, links, tables)
-  const sections = article.content.split("\n\n").map((block, i) => {
+  const sections = blocks.map((block, i) => {
     const trimmed = block.trim();
 
     if (trimmed.startsWith("### ")) {
+      const text = trimmed.slice(4);
       return (
-        <h3 key={i} className="text-lg font-serif font-bold mt-6 mb-2">
-          {trimmed.slice(4)}
+        <h3 key={i} id={slugify(text)} className="text-lg font-serif font-bold mt-6 mb-2 scroll-mt-20">
+          {text}
         </h3>
       );
     }
     if (trimmed.startsWith("## ")) {
+      const text = trimmed.slice(3);
       return (
-        <h2 key={i} className="text-xl font-serif font-bold mt-8 mb-3">
-          {trimmed.slice(3)}
+        <h2 key={i} id={slugify(text)} className="text-xl font-serif font-bold mt-8 mb-3 scroll-mt-20">
+          {text}
         </h2>
       );
     }
@@ -181,25 +218,58 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </header>
 
+      {/* Table of contents for articles with 3+ headings */}
+      {headings.length >= 3 && (
+        <nav className="mb-8 rounded-xl border bg-muted/30 p-4" aria-label="Sommaire de l'article">
+          <div className="flex items-center gap-2 mb-3 text-sm font-semibold">
+            <List className="w-4 h-4" />
+            Sommaire
+          </div>
+          <ol className="space-y-1 text-sm">
+            {headings.map((h) => (
+              <li key={h.id} className={h.level === 3 ? "pl-4" : ""}>
+                <a
+                  href={`#${h.id}`}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+
       <div className="prose-like">{sections}</div>
 
-      <Card className="mt-12 bg-warm-orange/5 border-warm-orange/20">
-        <CardContent className="pt-6 text-center space-y-3">
-          <p className="font-medium">
-            Gerez la sante, le budget et la fiscalite de votre famille
-          </p>
-          <div className="flex gap-3 justify-center">
-            <Link href="/outils">
-              <Button variant="outline">Outils gratuits</Button>
-            </Link>
-            <Link href="/register">
-              <Button>
-                Creer mon compte <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Contextual CTA based on article category */}
+      {(() => {
+        const tool = CATEGORY_TOOL_MAP[article.category];
+        return (
+          <Card className="mt-12 bg-warm-orange/5 border-warm-orange/20">
+            <CardContent className="pt-6 text-center space-y-3">
+              <p className="font-medium">
+                {tool
+                  ? `Cet article t'a ete utile ? Essaie notre outil gratuit`
+                  : `Gerez la sante, le budget et la fiscalite de votre famille`
+                }
+              </p>
+              <div className="flex gap-3 justify-center flex-wrap">
+                <Link href={tool?.href ?? "/outils"}>
+                  <Button variant="outline">
+                    {tool?.label ?? "Outils gratuits"}
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button>
+                    Creer mon compte <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })()}
 
       {/* Related articles */}
       {relatedArticles.length > 0 && (

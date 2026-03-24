@@ -8,6 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
 import type { BlogArticle } from "@/lib/blog-data";
 
+function normalizeText(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
 interface BlogArticleGridProps {
   articles: BlogArticle[];
   categoryColors: Record<string, string>;
@@ -16,16 +23,27 @@ interface BlogArticleGridProps {
 export function BlogArticleGrid({ articles, categoryColors }: BlogArticleGridProps) {
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get("category");
+  const searchQuery = searchParams.get("q") || "";
 
-  const filtered = activeCategory
+  let filtered = activeCategory
     ? articles.filter((a) => a.category === activeCategory)
     : articles;
+
+  if (searchQuery.trim()) {
+    const normalizedQuery = normalizeText(searchQuery.trim());
+    filtered = filtered.filter((a) =>
+      normalizeText(a.title).includes(normalizedQuery) ||
+      normalizeText(a.description).includes(normalizedQuery) ||
+      normalizeText(a.category).includes(normalizedQuery)
+    );
+  }
 
   return (
     <>
       <p className="text-center text-sm text-muted-foreground -mt-2 mb-6">
         {filtered.length} article{filtered.length > 1 ? "s" : ""}
         {activeCategory ? ` dans "${activeCategory}"` : ""}
+        {searchQuery ? ` pour "${searchQuery}"` : ""}
       </p>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filtered.map((article) => (
@@ -61,7 +79,10 @@ export function BlogArticleGrid({ articles, categoryColors }: BlogArticleGridPro
         ))}
         {filtered.length === 0 && (
           <div className="col-span-full text-center py-12 text-muted-foreground">
-            Aucun article dans cette catégorie pour le moment.
+            {searchQuery
+              ? `Aucun article ne correspond a "${searchQuery}". Essaie d'autres mots-cles.`
+              : "Aucun article dans cette categorie pour le moment."
+            }
           </div>
         )}
       </div>

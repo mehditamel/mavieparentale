@@ -311,3 +311,79 @@
     @apply bg-muted-foreground/40;
   }
 }
+
+/* Print stylesheet */
+@media print {
+  /* Hide non-essential UI elements */
+  nav,
+  header[role="banner"],
+  aside,
+  footer,
+  .bottom-nav,
+  .no-print,
+  button,
+  [data-testid="reading-progress"],
+  [data-testid="share-buttons"],
+  [data-testid="command-palette"],
+  [data-testid="theme-toggle"] {
+    display: none !important;
+  }
+
+  /* Force clean background and text */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Remove decorative shadows and borders */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Cards print flat */
+  .card-playful,
+  .card-gradient-teal,
+  .card-gradient-orange,
+  .card-gradient-blue,
+  .card-gradient-purple,
+  .card-gradient-gold,
+  .card-gradient-red,
+  .card-gradient-green,
+  .glass-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    transform: none !important;
+  }
+
+  /* Main content takes full width */
+  main {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Links show URL */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Page breaks */
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  table, figure, img {
+    page-break-inside: avoid;
+  }
+
+  /* Charts and graphs: ensure visibility */
+  svg {
+    max-width: 100% !important;
+  }
+}
