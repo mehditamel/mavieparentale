@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Wrench, BookOpen, Home, UserPlus } from "lucide-react";
+import { Menu, Wrench, BookOpen, Home, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Footer } from "@/components/layout/footer";
+import { RouteProgress } from "@/components/shared/route-progress";
 
 const NAV_LINKS = [
   { href: "/", label: "Accueil", icon: Home },
@@ -30,6 +31,7 @@ export default function MarketingLayout({
 
   return (
     <div className="min-h-screen">
+      <RouteProgress />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:shadow-lg"

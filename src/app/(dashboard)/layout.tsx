@@ -9,6 +9,7 @@ import { OfflineBanner } from "@/components/pwa/offline-fallback";
 import { SessionTracker } from "@/components/analytics/session-tracker";
 import { CookieBanner } from "@/components/shared/cookie-banner";
 import { ScrollToTop } from "@/components/shared/scroll-to-top";
+import { RouteProgress } from "@/components/shared/route-progress";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -99,6 +100,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-background">
+      <RouteProgress />
       <ServiceWorkerRegister />
       <SessionTracker />
       {/* Skip to content link for accessibility */}
