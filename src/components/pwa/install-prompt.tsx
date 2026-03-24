@@ -75,7 +75,7 @@ export function InstallPrompt() {
           <div>
             <p className="text-sm font-medium">Installer Darons</p>
             <p className="text-xs text-muted-foreground">
-              Accédez rapidement depuis votre écran d&apos;accueil
+              Accédez rapidement depuis votre écran d'accueil
             </p>
           </div>
         </div>

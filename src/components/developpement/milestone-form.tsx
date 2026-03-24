@@ -151,7 +151,7 @@ export function MilestoneForm({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="achievedDate">Date d&apos;acquisition</Label>
+              <Label htmlFor="achievedDate">Date d'acquisition</Label>
               <Input
                 id="achievedDate"
                 type="date"

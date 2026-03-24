@@ -9,11 +9,11 @@ export default function MarketingNotFound() {
         <p className="text-8xl font-bold text-muted-foreground/20">404</p>
         <div>
           <h1 className="text-2xl font-serif font-bold">
-            Cette page s&apos;est fait la malle
+            Cette page s'est fait la malle
           </h1>
           <p className="mt-3 text-muted-foreground">
             On a retourné toute la baraque, impossible de la trouver.
-            Essaie un de ces liens, c&apos;est plus fiable.
+            Essaie un de ces liens, c'est plus fiable.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row justify-center gap-3">

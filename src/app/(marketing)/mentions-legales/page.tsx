@@ -48,7 +48,7 @@ export default function MentionsLegalesPage() {
 
       <h2>3. Propriété intellectuelle</h2>
       <p>
-        L&apos;ensemble du contenu du site (textes, images, graphismes, logo,
+        L'ensemble du contenu du site (textes, images, graphismes, logo,
         icônes, logiciels) est la propriété de Darons ou de ses
         partenaires. Toute reproduction, même partielle, est interdite sans
         autorisation préalable.
@@ -57,7 +57,7 @@ export default function MentionsLegalesPage() {
       <h2>4. Données personnelles</h2>
       <p>
         Conformément au Règlement Général sur la Protection des Données (RGPD)
-        et à la loi Informatique et Libertés, vous disposez d&apos;un droit d&apos;accès,
+        et à la loi Informatique et Libertés, vous disposez d'un droit d'accès,
         de rectification et de suppression de vos données personnelles. Pour
         exercer ce droit, contactez-nous à : contact@darons.app
       </p>
@@ -70,7 +70,7 @@ export default function MentionsLegalesPage() {
       <p>
         Le site utilise uniquement des cookies fonctionnels nécessaires à son
         bon fonctionnement (authentification, préférences). Aucun cookie
-        publicitaire ou de suivi n&apos;est utilisé.
+        publicitaire ou de suivi n'est utilisé.
       </p>
     </div>
   );

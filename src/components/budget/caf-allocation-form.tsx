@@ -100,7 +100,7 @@ export function CafAllocationForm({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="allocationType">Type d&apos;allocation</Label>
+            <Label htmlFor="allocationType">Type d'allocation</Label>
             <Select
               value={allocationType}
               onValueChange={(v) => setValue("allocationType", v)}

@@ -54,8 +54,8 @@ export default function OutilsPage() {
 
       <div className="text-center pt-8 border-t">
         <p className="text-muted-foreground mb-4">
-          Envie de tout centraliser, recevoir des alertes et utiliser l&apos;IA ?
-          C&apos;est gratuit aussi.
+          Envie de tout centraliser, recevoir des alertes et utiliser l'IA ?
+          C'est gratuit aussi.
         </p>
         <Link href="/register">
           <Button size="lg">

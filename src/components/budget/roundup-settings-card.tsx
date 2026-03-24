@@ -65,9 +65,9 @@ export function RoundupSettingsCard({ settings, goals }: RoundupSettingsCardProp
         {/* Toggle */}
         <div className="flex items-center justify-between">
           <div>
-            <Label>Activer l&apos;arrondi automatique</Label>
+            <Label>Activer l'arrondi automatique</Label>
             <p className="text-xs text-muted-foreground">
-              Chaque dépense sera arrondie à l&apos;euro supérieur
+              Chaque dépense sera arrondie à l'euro supérieur
             </p>
           </div>
           <Switch checked={enabled} onCheckedChange={setEnabled} />
@@ -114,7 +114,7 @@ export function RoundupSettingsCard({ settings, goals }: RoundupSettingsCardProp
             {/* Target goal */}
             {goals.length > 0 && (
               <div className="space-y-2">
-                <Label>Objectif d&apos;épargne cible</Label>
+                <Label>Objectif d'épargne cible</Label>
                 <Select
                   value={targetGoalId ?? "none"}
                   onValueChange={(v) => setTargetGoalId(v === "none" ? null : v)}
@@ -142,7 +142,7 @@ export function RoundupSettingsCard({ settings, goals }: RoundupSettingsCardProp
                   {settings.totalRounded.toLocaleString("fr-FR")} € épargnés
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Total depuis l&apos;activation
+                  Total depuis l'activation
                 </p>
               </div>
             </div>

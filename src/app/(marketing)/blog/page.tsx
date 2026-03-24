@@ -66,7 +66,7 @@ export default function BlogPage() {
           </a>
         </div>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Guides pratiques, conseils d&apos;experts et astuces pour simplifier
+          Guides pratiques, conseils d'experts et astuces pour simplifier
           votre quotidien de parent.
         </p>
       </div>
@@ -89,7 +89,7 @@ export default function BlogPage() {
 
       <div className="text-center pt-8 border-t">
         <p className="text-muted-foreground mb-4">
-          Envie de passer à l&apos;action ?
+          Envie de passer à l'action ?
         </p>
         <Link href="/outils">
           <Button variant="outline">

@@ -93,7 +93,7 @@ export function AiCoachCard({ hasAccess }: AiCoachCardProps) {
           <div className="flex-1">
             <p className="text-sm font-medium">Coach budgétaire IA</p>
             <p className="text-xs text-muted-foreground">
-              Passez au plan Premium pour bénéficier de conseils personnalisés par l&apos;IA.
+              Passez au plan Premium pour bénéficier de conseils personnalisés par l'IA.
             </p>
           </div>
           <Badge variant="outline">Premium</Badge>

@@ -121,7 +121,7 @@ export default function CongeParentalPage() {
                 <Input id="salaireBrutMensuel" type="number" {...register("salaireBrutMensuel", { valueAsNumber: true })} />
               </div>
               <div>
-                <Label htmlFor="nbEnfants">Nombre d&apos;enfants (nés ou à naître)</Label>
+                <Label htmlFor="nbEnfants">Nombre d'enfants (nés ou à naître)</Label>
                 <Input id="nbEnfants" type="number" min={1} max={10} {...register("nbEnfants", { valueAsNumber: true })} />
               </div>
               <div>

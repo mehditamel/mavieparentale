@@ -157,7 +157,7 @@ export function VaccinationForm({ open, onOpenChange, memberId, prefill }: Vacci
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="administeredDate">Date d&apos;administration</Label>
+              <Label htmlFor="administeredDate">Date d'administration</Label>
               <Input
                 id="administeredDate"
                 type="date"

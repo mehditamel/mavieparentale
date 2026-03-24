@@ -46,7 +46,7 @@ export function Footer({ variant = "full" }: FooterProps) {
               <span className="font-serif font-bold text-lg">Darons</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              L&apos;app 100% gratuite qui centralise toute la vie de famille.
+              L'app 100% gratuite qui centralise toute la vie de famille.
               Faite par des parents, pour des parents.
             </p>
           </div>

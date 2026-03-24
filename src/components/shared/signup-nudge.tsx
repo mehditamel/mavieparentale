@@ -29,7 +29,7 @@ export function SignupNudge({ variant = "inline" }: SignupNudgeProps) {
             <div className="flex items-center gap-2">
               <Link href="/register">
                 <Button size="sm">
-                  C&apos;est gratuit <ArrowRight className="w-3 h-3 ml-1" />
+                  C'est gratuit <ArrowRight className="w-3 h-3 ml-1" />
                 </Button>
               </Link>
               <button

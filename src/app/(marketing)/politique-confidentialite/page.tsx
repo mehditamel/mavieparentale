@@ -27,20 +27,20 @@ export default function PolitiqueConfidentialitePage() {
       </p>
 
       <h2>2. Données collectées</h2>
-      <h3>2.1 Données d&apos;inscription</h3>
+      <h3>2.1 Données d'inscription</h3>
       <p>Nom, prénom, adresse email, mot de passe (hashé).</p>
 
       <h3>2.2 Données du foyer</h3>
       <p>
         Composition familiale (noms, dates de naissance, genre des membres),
-        documents d&apos;identité (numéros, dates d&apos;expiration).
+        documents d'identité (numéros, dates d'expiration).
       </p>
 
       <h3>2.3 Données de santé</h3>
       <p>
         Vaccinations, rendez-vous médicaux, mesures de croissance, notes de
         santé. Ces données sont considérées comme sensibles au sens du RGPD
-        (article 9) et font l&apos;objet de protections renforcées.
+        (article 9) et font l'objet de protections renforcées.
       </p>
 
       <h3>2.4 Données financières</h3>
@@ -63,13 +63,13 @@ export default function PolitiqueConfidentialitePage() {
       <ul>
         <li>
           <strong>Consentement</strong> : pour le traitement des données de
-          santé, l&apos;Open Banking et les notifications
+          santé, l'Open Banking et les notifications
         </li>
         <li>
           <strong>Exécution du contrat</strong> : pour la fourniture du service
         </li>
         <li>
-          <strong>Intérêt légitime</strong> : pour l&apos;amélioration du service
+          <strong>Intérêt légitime</strong> : pour l'amélioration du service
         </li>
       </ul>
 
@@ -132,13 +132,13 @@ export default function PolitiqueConfidentialitePage() {
       <p>Conformément au RGPD, vous disposez des droits suivants :</p>
       <ul>
         <li>
-          <strong>Droit d&apos;accès</strong> : obtenir une copie de vos données
+          <strong>Droit d'accès</strong> : obtenir une copie de vos données
         </li>
         <li>
           <strong>Droit de rectification</strong> : corriger vos données
         </li>
         <li>
-          <strong>Droit à l&apos;effacement</strong> : supprimer votre compte et
+          <strong>Droit à l'effacement</strong> : supprimer votre compte et
           toutes vos données
         </li>
         <li>
@@ -146,7 +146,7 @@ export default function PolitiqueConfidentialitePage() {
           format JSON
         </li>
         <li>
-          <strong>Droit d&apos;opposition</strong> : vous opposer à certains
+          <strong>Droit d'opposition</strong> : vous opposer à certains
           traitements
         </li>
         <li>
@@ -172,7 +172,7 @@ export default function PolitiqueConfidentialitePage() {
       <h2>9. Cookies</h2>
       <p>
         Le site utilise uniquement des cookies fonctionnels (session
-        d&apos;authentification). Aucun cookie publicitaire ou analytique n&apos;est
+        d'authentification). Aucun cookie publicitaire ou analytique n'est
         utilisé.
       </p>
 

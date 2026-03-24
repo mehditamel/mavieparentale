@@ -49,7 +49,7 @@ export function SavingsGoalCard({ goals }: SavingsGoalCardProps) {
         <CardHeader className="flex flex-row items-center justify-between pb-3">
           <CardTitle className="text-base flex items-center gap-2">
             <Target className="h-4 w-4" />
-            Objectifs d&apos;épargne
+            Objectifs d'épargne
           </CardTitle>
           <Button size="sm" onClick={() => setShowForm(true)}>
             <Plus className="mr-1 h-4 w-4" />
@@ -59,7 +59,7 @@ export function SavingsGoalCard({ goals }: SavingsGoalCardProps) {
         <CardContent>
           {activeGoals.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-4">
-              Aucun objectif d&apos;épargne défini
+              Aucun objectif d'épargne défini
             </p>
           ) : (
             <div className="space-y-4">

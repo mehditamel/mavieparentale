@@ -54,7 +54,7 @@ export default function CalendrierVaccinalPage() {
 
       <Card className="max-w-md mx-auto">
         <CardContent className="pt-6">
-          <Label htmlFor="birthDate">Date de naissance de l&apos;enfant</Label>
+          <Label htmlFor="birthDate">Date de naissance de l'enfant</Label>
           <Input
             id="birthDate"
             type="date"

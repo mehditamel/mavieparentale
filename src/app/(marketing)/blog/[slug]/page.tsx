@@ -281,9 +281,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           <PenLine className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-sm font-semibold">L&apos;equipe Darons</p>
+          <p className="text-sm font-semibold">L'equipe Darons</p>
           <p className="text-xs text-muted-foreground mt-1">
-            Des parents comme toi, qui construisent l&apos;app qu&apos;ils auraient voulu avoir.
+            Des parents comme toi, qui construisent l'app qu'ils auraient voulu avoir.
             Sante, budget, impots, papiers — on simplifie tout.
           </p>
           <Link href="/blog" className="text-xs text-warm-orange hover:underline mt-1 inline-block">

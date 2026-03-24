@@ -50,7 +50,7 @@ export default async function ParrainagePage() {
                 </li>
                 <li className="flex gap-2">
                   <Badge variant="outline" className="shrink-0">2</Badge>
-                  <span>Ils s&apos;inscrivent gratuitement avec votre code</span>
+                  <span>Ils s'inscrivent gratuitement avec votre code</span>
                 </li>
                 <li className="flex gap-2">
                   <Badge variant="outline" className="shrink-0">3</Badge>

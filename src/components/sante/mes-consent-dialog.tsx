@@ -84,7 +84,7 @@ export function MESConsentDialog({
                   className="mt-1 h-4 w-4 rounded border-gray-300"
                 />
                 <span>
-                  J&apos;accepte la synchronisation des données de santé de {childName} avec
+                  J'accepte la synchronisation des données de santé de {childName} avec
                   Mon Espace Santé et je confirme être le représentant légal.
                 </span>
               </label>

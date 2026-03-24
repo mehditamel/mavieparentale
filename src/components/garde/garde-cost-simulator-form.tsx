@@ -65,7 +65,7 @@ export function GardeCostSimulatorForm() {
           </CardTitle>
           <CardDescription>
             Estimez votre reste à charge après CMG et crédit
-            d&apos;impôt
+            d'impôt
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -136,7 +136,7 @@ export function GardeCostSimulatorForm() {
 
               <div className="space-y-2">
                 <Label htmlFor="nbEnfantsGardes">
-                  Nombre d&apos;enfants gardés
+                  Nombre d'enfants gardés
                 </Label>
                 <Input
                   id="nbEnfantsGardes"

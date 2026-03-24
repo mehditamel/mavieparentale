@@ -58,7 +58,7 @@ export default function SimulateurIRPage() {
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
           Calculez votre impôt avec le barème 2025 (revenus 2024). Estimez votre
-          TMI, vos crédits d&apos;impôt et votre taux effectif.
+          TMI, vos crédits d'impôt et votre taux effectif.
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export default function SimulateurIRPage() {
               </div>
 
               <div>
-                <Label htmlFor="numChildren">Nombre d&apos;enfants</Label>
+                <Label htmlFor="numChildren">Nombre d'enfants</Label>
                 <Input
                   id="numChildren"
                   type="number"
@@ -193,7 +193,7 @@ export default function SimulateurIRPage() {
                   )}
                   {result.creditsImpot.total > 0 && (
                     <>
-                      <div className="text-xs text-muted-foreground mt-2">Crédits d&apos;impôt :</div>
+                      <div className="text-xs text-muted-foreground mt-2">Crédits d'impôt :</div>
                       {result.creditsImpot.gardeEnfant > 0 && (
                         <div className="flex justify-between text-sm text-warm-teal">
                           <span className="pl-4">Garde enfant</span>

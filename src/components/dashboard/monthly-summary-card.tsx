@@ -129,7 +129,7 @@ export function MonthlySummaryCard({ hasAccess }: MonthlySummaryCardProps) {
 
         {!summary && !error && !loading && (
           <p className="text-sm text-muted-foreground">
-            L&apos;IA génère un résumé complet de votre foyer : santé, développement, budget et démarches administratives.
+            L'IA génère un résumé complet de votre foyer : santé, développement, budget et démarches administratives.
           </p>
         )}
       </CardContent>

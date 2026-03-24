@@ -56,7 +56,7 @@ export function FiscalComparator({ baseResult, baseInput }: FiscalComparatorProp
       <CardHeader>
         <CardTitle className="text-base">Comparateur avant / après</CardTitle>
         <CardDescription>
-          Modifiez les paramètres pour voir l&apos;impact sur votre impôt
+          Modifiez les paramètres pour voir l'impact sur votre impôt
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

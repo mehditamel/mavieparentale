@@ -63,7 +63,7 @@ export function FiscalTabs({
         </TabsTrigger>
         <TabsTrigger value="credits" className="gap-1.5">
           <Gift className="h-4 w-4" />
-          <span className="hidden sm:inline">Crédits d&apos;impôt</span>
+          <span className="hidden sm:inline">Crédits d'impôt</span>
           <span className="sm:hidden">Crédits</span>
         </TabsTrigger>
         <TabsTrigger value="echeancier" className="gap-1.5">

@@ -73,11 +73,11 @@ export default function TimelineAdministrativePage() {
           <CalendarRange className="w-7 h-7" />
         </div>
         <h1 className="text-3xl font-serif font-bold">
-          De la grossesse à l&apos;école
+          De la grossesse à l'école
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
           Tout ce que tu dois faire, quand tu dois le faire.
-          La frise de la vie de parent, en un coup d&apos;oeil.
+          La frise de la vie de parent, en un coup d'oeil.
         </p>
       </div>
 

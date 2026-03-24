@@ -87,7 +87,7 @@ export default function CourbeCroissancePage() {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Informations de l&apos;enfant</CardTitle>
+              <CardTitle>Informations de l'enfant</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>

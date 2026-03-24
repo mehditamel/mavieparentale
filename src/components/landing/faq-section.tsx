@@ -64,7 +64,7 @@ export function FaqSection() {
             Les questions que tu te poses
           </h2>
           <p className="mt-3 text-muted-foreground">
-            On répond cash, comme d&apos;hab.
+            On répond cash, comme d'hab.
           </p>
         </div>
         <Accordion type="single" collapsible className="w-full space-y-3">

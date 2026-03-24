@@ -337,7 +337,7 @@ export default function OnboardingPage() {
             </CardTitle>
             <CardDescription className="text-center">
               {getChildMessage()}<br />
-              Tu veux inviter l&apos;autre parent à rejoindre le foyer ?
+              Tu veux inviter l'autre parent à rejoindre le foyer ?
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -382,10 +382,10 @@ export default function OnboardingPage() {
               <LayoutGrid className="h-7 w-7 text-warm-blue" />
             </div>
             <CardTitle className="text-center">
-              C&apos;est quoi ton plus gros bordel en ce moment ?
+              C'est quoi ton plus gros bordel en ce moment ?
             </CardTitle>
             <CardDescription className="text-center">
-              Sélectionne ce qui t&apos;intéresse le plus. On activera ces modules en priorité.
+              Sélectionne ce qui t'intéresse le plus. On activera ces modules en priorité.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -442,7 +442,7 @@ export default function OnboardingPage() {
           onClick={() => router.push("/dashboard")}
           className="mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          Passer pour l&apos;instant →
+          Passer pour l'instant →
         </button>
       )}
 

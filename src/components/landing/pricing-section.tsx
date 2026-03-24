@@ -73,7 +73,7 @@ export function PricingSection() {
           </h2>
           <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
             Darons est 100% gratuit au lancement. Les plans payants arriveront plus tard
-            pour des extras — mais le cœur de l&apos;app restera toujours gratuit.
+            pour des extras — mais le cœur de l'app restera toujours gratuit.
           </p>
         </div>
 
@@ -128,7 +128,7 @@ export function PricingSection() {
         </div>
 
         <p className="text-center text-xs text-muted-foreground mt-8">
-          Pas de carte bancaire requise. Pas d&apos;engagement. Tu peux annuler à tout moment.
+          Pas de carte bancaire requise. Pas d'engagement. Tu peux annuler à tout moment.
         </p>
       </div>
     </section>

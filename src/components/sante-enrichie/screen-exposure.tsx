@@ -109,7 +109,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
           <CardContent className="py-8 text-center">
             <Monitor className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
             <p className="text-sm text-muted-foreground">
-              Le suivi de l&apos;exposition aux écrans commence à partir de 3 mois.
+              Le suivi de l'exposition aux écrans commence à partir de 3 mois.
             </p>
           </CardContent>
         </Card>
@@ -119,7 +119,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base">
-              Évolution du temps d&apos;écran (30 derniers jours)
+              Évolution du temps d'écran (30 derniers jours)
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -169,7 +169,7 @@ export function ScreenExposure({ member, journal }: ScreenExposureProps) {
           <CardContent className="py-8 text-center">
             <Monitor className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
             <p className="text-sm text-muted-foreground">
-              Aucune donnée d&apos;exposition aux écrans. Renseignez le temps d&apos;écran
+              Aucune donnée d'exposition aux écrans. Renseignez le temps d'écran
               dans le journal quotidien.
             </p>
           </CardContent>

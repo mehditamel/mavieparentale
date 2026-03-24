@@ -84,10 +84,10 @@ export default function ChecklistNaissancePage() {
           <ClipboardCheck className="w-7 h-7" />
         </div>
         <h1 className="text-3xl font-serif font-bold">
-          T&apos;as pensé à tout ? On vérifie.
+          T'as pensé à tout ? On vérifie.
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          De la grossesse aux 3 ans : toutes les démarches, dans l&apos;ordre,
+          De la grossesse aux 3 ans : toutes les démarches, dans l'ordre,
           avec les liens officiels. Coche au fur et à mesure.
         </p>
       </div>
