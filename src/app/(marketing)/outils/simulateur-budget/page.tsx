@@ -143,7 +143,7 @@ export default function SimulateurBudgetPage() {
                   <AlertTriangle className="w-5 h-5 text-warm-red shrink-0" />
                   <p className="text-sm">
                     Ton reste à vivre est inférieur à 20% de tes revenus.
-                    C&apos;est serré. Regarde si tu touches toutes les aides auxquelles t&apos;as droit.
+                    C'est serré. Regarde si tu touches toutes les aides auxquelles t'as droit.
                   </p>
                 </CardContent>
               </Card>

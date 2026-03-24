@@ -12,10 +12,10 @@ export default function DashboardNotFound() {
           <p className="text-6xl font-bold text-muted-foreground/30">404</p>
           <div>
             <h2 className="text-lg font-serif font-semibold">
-              Cette page n&apos;existe pas (encore)
+              Cette page n'existe pas (encore)
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              On a cherché partout, rien trouvé. Retourne au tableau de bord, c&apos;est plus sûr là-bas.
+              On a cherché partout, rien trouvé. Retourne au tableau de bord, c'est plus sûr là-bas.
             </p>
           </div>
           <div className="flex justify-center gap-2">

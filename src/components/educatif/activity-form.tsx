@@ -116,7 +116,7 @@ export function ActivityForm({
           <input type="hidden" {...register("memberId")} />
 
           <div className="space-y-2">
-            <Label htmlFor="name">Nom de l&apos;activité *</Label>
+            <Label htmlFor="name">Nom de l'activité *</Label>
             <Input
               id="name"
               placeholder="ex: Bébé nageur, Éveil musical"

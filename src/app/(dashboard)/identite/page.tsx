@@ -74,7 +74,7 @@ export default async function IdentitePage() {
       {expiring.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Alertes d&apos;expiration</CardTitle>
+            <CardTitle className="text-lg">Alertes d'expiration</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {expiring.map((doc) => (

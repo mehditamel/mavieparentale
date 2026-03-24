@@ -54,8 +54,8 @@ export default function SimulateurGardePage() {
           Crèche ou nounou ? Le vrai prix.
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Calcule ton reste à charge réel après CMG et crédit d&apos;impôt.
-          Tu vas voir, c&apos;est souvent moins cher que tu crois.
+          Calcule ton reste à charge réel après CMG et crédit d'impôt.
+          Tu vas voir, c'est souvent moins cher que tu crois.
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export default function SimulateurGardePage() {
               </div>
 
               <div>
-                <Label htmlFor="nbEnfantsGardes">Nombre d&apos;enfants gardés</Label>
+                <Label htmlFor="nbEnfantsGardes">Nombre d'enfants gardés</Label>
                 <Input
                   id="nbEnfantsGardes"
                   type="number"

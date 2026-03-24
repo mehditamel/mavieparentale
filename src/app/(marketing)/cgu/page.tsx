@@ -12,15 +12,15 @@ export const metadata: Metadata = {
 export default function CguPage() {
   return (
     <div className="prose prose-stone max-w-none">
-      <h1 className="font-serif">Conditions générales d&apos;utilisation</h1>
+      <h1 className="font-serif">Conditions générales d'utilisation</h1>
       <p className="text-muted-foreground">
         Dernière mise à jour : 19 mars 2026
       </p>
 
       <h2>1. Objet</h2>
       <p>
-        Les présentes conditions générales d&apos;utilisation (CGU) régissent
-        l&apos;utilisation du service Darons, accessible à l&apos;adresse
+        Les présentes conditions générales d'utilisation (CGU) régissent
+        l'utilisation du service Darons, accessible à l'adresse
         darons.app. En vous inscrivant, vous acceptez sans réserve
         les présentes CGU.
       </p>
@@ -29,15 +29,15 @@ export default function CguPage() {
       <p>
         Darons est une application gratuite pour les parents permettant
         de centraliser la gestion administrative, éducative, fiscale et
-        budgétaire d&apos;un foyer. Le service propose plusieurs modules :
+        budgétaire d'un foyer. Le service propose plusieurs modules :
         suivi de santé, gestion de documents, budget, simulation fiscale,
-        recherche de garde d&apos;enfants et suivi du développement.
+        recherche de garde d'enfants et suivi du développement.
       </p>
 
       <h2>3. Accès au service</h2>
       <p>
-        L&apos;accès au service nécessite la création d&apos;un compte utilisateur.
-        L&apos;utilisateur s&apos;engage à fournir des informations exactes et à
+        L'accès au service nécessite la création d'un compte utilisateur.
+        L'utilisateur s'engage à fournir des informations exactes et à
         maintenir la confidentialité de ses identifiants de connexion.
       </p>
 
@@ -52,7 +52,7 @@ export default function CguPage() {
       <p>
         Le traitement des données personnelles est décrit dans notre{" "}
         <a href="/politique-confidentialite">politique de confidentialité</a>.
-        L&apos;utilisateur conserve la propriété de ses données et peut les
+        L'utilisateur conserve la propriété de ses données et peut les
         exporter ou les supprimer à tout moment.
       </p>
 
@@ -74,8 +74,8 @@ export default function CguPage() {
 
       <h2>8. Résiliation</h2>
       <p>
-        L&apos;utilisateur peut supprimer son compte à tout moment depuis les
-        paramètres. La suppression entraîne l&apos;effacement définitif de toutes
+        L'utilisateur peut supprimer son compte à tout moment depuis les
+        paramètres. La suppression entraîne l'effacement définitif de toutes
         les données dans un délai de 30 jours.
       </p>
 

@@ -63,7 +63,7 @@ export function ReferralCodeCard({ code }: ReferralCodeCardProps) {
 
         <Button onClick={handleShare} variant="outline" className="w-full">
           <Share2 className="h-4 w-4 mr-2" />
-          Partager le lien d&apos;inscription
+          Partager le lien d'inscription
         </Button>
       </CardContent>
     </Card>

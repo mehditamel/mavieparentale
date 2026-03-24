@@ -87,7 +87,7 @@ export default function NumerosUrgencePage() {
         <CardContent className="pt-6 text-center space-y-2">
           <Heart className="w-8 h-8 mx-auto text-warm-teal" />
           <p className="font-medium">
-            Sauvegarde cette page dans tes favoris. On espère que t&apos;en auras jamais besoin.
+            Sauvegarde cette page dans tes favoris. On espère que t'en auras jamais besoin.
           </p>
         </CardContent>
       </Card>

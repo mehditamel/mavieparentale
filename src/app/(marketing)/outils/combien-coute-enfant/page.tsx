@@ -42,8 +42,8 @@ export default function CombienCouteEnfantPage() {
           Combien coûte un enfant de 0 à 18 ans ?
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Le vrai coût, poste par poste, tranche d&apos;âge par tranche d&apos;âge.
-          Spoiler : c&apos;est beaucoup, mais les aides aident.
+          Le vrai coût, poste par poste, tranche d'âge par tranche d'âge.
+          Spoiler : c'est beaucoup, mais les aides aident.
         </p>
       </div>
 

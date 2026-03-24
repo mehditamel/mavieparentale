@@ -136,7 +136,7 @@ export default function GuideVaccinsObligatoiresPage() {
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           11 vaccins sont obligatoires pour les enfants en France.
-          Voici lesquels, quand les faire, et pourquoi c&apos;est important.
+          Voici lesquels, quand les faire, et pourquoi c'est important.
         </p>
       </div>
 
@@ -145,8 +145,8 @@ export default function GuideVaccinsObligatoiresPage() {
           <ShieldCheck className="h-5 w-5 text-warm-teal mt-0.5 shrink-0" />
           <p className="text-sm">
             <strong>Depuis janvier 2018</strong>, 11 vaccins sont obligatoires
-            pour tout enfant né en France. Ils sont exigés pour l&apos;entrée en
-            crèche, à l&apos;école et en centre de loisirs.
+            pour tout enfant né en France. Ils sont exigés pour l'entrée en
+            crèche, à l'école et en centre de loisirs.
           </p>
         </CardContent>
       </Card>
@@ -218,7 +218,7 @@ export default function GuideVaccinsObligatoiresPage() {
           <AlertTriangle className="h-5 w-5 text-warm-orange mt-0.5 shrink-0" />
           <p className="text-sm">
             <strong>Avertissement</strong> : cette page est fournie à titre
-            informatif et ne se substitue pas à l&apos;avis de ton médecin ou
+            informatif et ne se substitue pas à l'avis de ton médecin ou
             pédiatre. Consulte un professionnel de santé pour toute question
             relative à la vaccination de ton enfant.
           </p>
@@ -236,7 +236,7 @@ export default function GuideVaccinsObligatoiresPage() {
           </p>
           <Button asChild>
             <Link href="/register">
-              C&apos;est gratuit, je m&apos;inscris
+              C'est gratuit, je m'inscris
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

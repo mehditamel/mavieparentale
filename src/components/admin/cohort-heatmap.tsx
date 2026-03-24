@@ -32,7 +32,7 @@ export function CohortHeatmap({ cohorts }: CohortHeatmapProps) {
         <CardHeader>
           <CardTitle>Analyse de cohortes</CardTitle>
           <CardDescription>
-            Les données de rétention apparaîtront ici lorsque suffisamment d&apos;utilisateurs se seront inscrits.
+            Les données de rétention apparaîtront ici lorsque suffisamment d'utilisateurs se seront inscrits.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -51,7 +51,7 @@ export function CohortHeatmap({ cohorts }: CohortHeatmapProps) {
       <CardHeader>
         <CardTitle>Rétention par cohorte</CardTitle>
         <CardDescription>
-          Pourcentage d&apos;utilisateurs actifs après J+1, J+7, J+30 et J+90
+          Pourcentage d'utilisateurs actifs après J+1, J+7, J+30 et J+90
         </CardDescription>
       </CardHeader>
       <CardContent>

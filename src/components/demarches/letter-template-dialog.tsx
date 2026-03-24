@@ -147,7 +147,7 @@ export function LetterTemplateDialog({ open, onOpenChange }: LetterTemplateDialo
             </div>
 
             <p className="text-xs text-muted-foreground text-center">
-              Remplace les champs entre {"{{ }}"} par tes propres informations avant d&apos;envoyer.
+              Remplace les champs entre {"{{ }}"} par tes propres informations avant d'envoyer.
             </p>
           </div>
         )}

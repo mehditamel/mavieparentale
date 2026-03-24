@@ -51,7 +51,7 @@ export function DismissibleAlertCard({
         onClick={handleDismiss}
       >
         <X className="h-3 w-3" />
-        <span className="sr-only">Fermer l&apos;alerte</span>
+        <span className="sr-only">Fermer l'alerte</span>
       </Button>
     </div>
   );

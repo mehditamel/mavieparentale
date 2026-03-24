@@ -150,7 +150,7 @@ export function SocialRightsSimulator() {
 
               <div className="space-y-2">
                 <Label htmlFor="nbEnfants">
-                  Nombre d&apos;enfants à charge
+                  Nombre d'enfants à charge
                 </Label>
                 <Input
                   id="nbEnfants"

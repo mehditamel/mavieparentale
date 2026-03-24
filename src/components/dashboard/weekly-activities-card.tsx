@@ -44,7 +44,7 @@ export function WeeklyActivitiesCard({ activities, childName }: WeeklyActivities
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-warm-purple/10 mb-3">
               <Palette className="h-5 w-5 text-warm-purple" />
             </div>
-            <p className="text-sm font-medium">Pas encore d&apos;activité</p>
+            <p className="text-sm font-medium">Pas encore d'activité</p>
             <p className="text-xs text-muted-foreground mt-1 max-w-[200px]">
               Sport, musique, éveil — ajoute les activités de {childName}
             </p>

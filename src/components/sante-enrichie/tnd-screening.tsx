@@ -124,7 +124,7 @@ export function TndScreening({ member, examinations }: TndScreeningProps) {
       <Card className="border-blue-200 bg-blue-50/30">
         <CardContent className="py-3 px-4">
           <p className="text-xs text-blue-700">
-            <strong>Important :</strong> Cette grille est un outil d&apos;observation simplifié,
+            <strong>Important :</strong> Cette grille est un outil d'observation simplifié,
             pas un diagnostic. Si plusieurs items ne sont pas observés, consultez votre
             pédiatre pour un bilan approfondi.
           </p>

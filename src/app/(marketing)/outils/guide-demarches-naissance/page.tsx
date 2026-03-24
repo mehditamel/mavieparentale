@@ -142,7 +142,7 @@ export default function GuideDemarchesNaissancePage() {
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           La checklist complète pour ne rien oublier. De la déclaration de
-          naissance à la déclaration d&apos;impôts, on t&apos;explique tout
+          naissance à la déclaration d'impôts, on t'explique tout
           simplement.
         </p>
       </div>
@@ -190,7 +190,7 @@ export default function GuideDemarchesNaissancePage() {
           </p>
           <Button asChild>
             <Link href="/register">
-              C&apos;est gratuit, je m&apos;inscris
+              C'est gratuit, je m'inscris
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

@@ -17,10 +17,10 @@ export default function CookiesPage() {
         Dernière mise à jour : 20 mars 2026
       </p>
 
-      <h2>1. Qu&apos;est-ce qu&apos;un cookie ?</h2>
+      <h2>1. Qu'est-ce qu'un cookie ?</h2>
       <p>
         Un cookie est un petit fichier texte déposé sur votre appareil lors de
-        la visite d&apos;un site web. Il permet au site de mémoriser certaines
+        la visite d'un site web. Il permet au site de mémoriser certaines
         informations pour faciliter votre navigation.
       </p>
 
@@ -64,7 +64,7 @@ export default function CookiesPage() {
         <li>Aucun partage de données de navigation avec des tiers</li>
       </ul>
       <p>
-        Si nous utilisons un outil d&apos;analyse (Plausible Analytics), celui-ci
+        Si nous utilisons un outil d'analyse (Plausible Analytics), celui-ci
         fonctionne <strong>sans cookies</strong> et dans le respect total du RGPD.
       </p>
 
@@ -80,7 +80,7 @@ export default function CookiesPage() {
       <h2>5. Vos droits</h2>
       <p>
         Conformément au RGPD et à la loi Informatique et Libertés, vous
-        disposez d&apos;un droit d&apos;accès, de rectification et de suppression
+        disposez d'un droit d'accès, de rectification et de suppression
         de vos données. Consultez notre{" "}
         <a href="/politique-confidentialite">politique de confidentialité</a>{" "}
         pour exercer vos droits.
@@ -89,7 +89,7 @@ export default function CookiesPage() {
       <h2>6. Contact</h2>
       <p>
         Pour toute question relative aux cookies, contactez-nous à
-        l&apos;adresse : <strong>contact@darons.app</strong>
+        l'adresse : <strong>contact@darons.app</strong>
       </p>
     </div>
   );

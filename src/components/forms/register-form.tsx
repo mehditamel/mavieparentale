@@ -207,13 +207,13 @@ export function RegisterForm() {
               {...register("acceptTerms")}
             />
             <Label htmlFor="acceptTerms" className="text-xs leading-relaxed">
-              J&apos;accepte les{" "}
+              J'accepte les{" "}
               <Link
                 href="/cgu"
                 className="text-primary hover:underline"
                 target="_blank"
               >
-                conditions générales d&apos;utilisation
+                conditions générales d'utilisation
               </Link>{" "}
               et la{" "}
               <Link
@@ -233,7 +233,7 @@ export function RegisterForm() {
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            C&apos;est parti, c&apos;est gratuit
+            C'est parti, c'est gratuit
           </Button>
         </form>
       </CardContent>

@@ -36,7 +36,7 @@ export function CookieBanner() {
           <p className="text-xs text-muted-foreground">
             Darons utilise uniquement des cookies nécessaires au
             fonctionnement du site (authentification, préférences). Aucun cookie
-            publicitaire ou de tracking n&apos;est utilisé.
+            publicitaire ou de tracking n'est utilisé.
           </p>
           <div className="flex gap-2">
             <Button size="sm" onClick={handleAccept}>

@@ -120,7 +120,7 @@ export function SimulationForm({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="numChildren">Nombre d&apos;enfants de moins de 6 ans</Label>
+            <Label htmlFor="numChildren">Nombre d'enfants de moins de 6 ans</Label>
             <Input
               id="numChildren"
               type="number"
@@ -132,7 +132,7 @@ export function SimulationForm({
 
           <div className="space-y-3">
             <h4 className="text-sm font-medium text-muted-foreground">
-              Crédits &amp; réductions d&apos;impôt
+              Crédits & réductions d'impôt
             </h4>
 
             <div className="grid gap-4 sm:grid-cols-2">

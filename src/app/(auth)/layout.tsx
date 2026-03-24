@@ -84,7 +84,7 @@ export default function AuthLayout({
               Darons
             </h1>
             <p className="text-sm text-muted-foreground">
-              L&apos;app des parents qui gèrent
+              L'app des parents qui gèrent
             </p>
           </Link>
         </div>

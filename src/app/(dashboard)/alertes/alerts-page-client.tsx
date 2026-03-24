@@ -160,7 +160,7 @@ export function AlertsPageClient({
           ) : (
             <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
           )}
-          Analyser avec l&apos;IA
+          Analyser avec l'IA
         </Button>
       </div>
 

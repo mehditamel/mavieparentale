@@ -166,7 +166,7 @@ export function DemarchesTaskForm({ members }: DemarchesTaskFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="dueDate">Date d&apos;échéance</Label>
+              <Label htmlFor="dueDate">Date d'échéance</Label>
               <Input id="dueDate" type="date" {...register("dueDate")} />
             </div>
 

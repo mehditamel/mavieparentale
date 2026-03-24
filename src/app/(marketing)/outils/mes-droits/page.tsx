@@ -119,10 +119,10 @@ export default function MesDroitsPage() {
           <Scale className="w-7 h-7" />
         </div>
         <h1 className="text-3xl font-serif font-bold">
-          À quoi t&apos;as droit ? Tout, en 2 minutes.
+          À quoi t'as droit ? Tout, en 2 minutes.
         </h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Allocations familiales, PAJE, CMG, prime d&apos;activité, RSA...
+          Allocations familiales, PAJE, CMG, prime d'activité, RSA...
           On calcule tout. Tu serais surpris de ce que tu rates.
         </p>
       </div>
@@ -139,7 +139,7 @@ export default function MesDroitsPage() {
                 <Input id="revenuAnnuel" type="number" {...register("revenuAnnuel", { valueAsNumber: true })} />
               </div>
               <div>
-                <Label htmlFor="revenuMensuelNet">Revenu mensuel net d&apos;activité (€)</Label>
+                <Label htmlFor="revenuMensuelNet">Revenu mensuel net d'activité (€)</Label>
                 <Input id="revenuMensuelNet" type="number" {...register("revenuMensuelNet", { valueAsNumber: true })} />
               </div>
               <div>

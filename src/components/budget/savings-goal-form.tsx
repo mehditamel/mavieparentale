@@ -82,7 +82,7 @@ export function SavingsGoalForm({ open, onOpenChange, goal }: SavingsGoalFormPro
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Nom de l&apos;objectif</Label>
+            <Label htmlFor="name">Nom de l'objectif</Label>
             <Input
               id="name"
               placeholder="Ex : Vacances été 2026, Rentrée scolaire..."

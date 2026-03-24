@@ -180,7 +180,7 @@ export function IdentityDocumentForm({
               <Input id="issueDate" type="date" {...register("issueDate")} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="expiryDate">Date d&apos;expiration</Label>
+              <Label htmlFor="expiryDate">Date d'expiration</Label>
               <Input id="expiryDate" type="date" {...register("expiryDate")} />
             </div>
           </div>

@@ -192,7 +192,7 @@ export default function LandingPage() {
               </Button>
             </Link>
             <Link href="/register">
-              <Button size="sm" className="shadow-lg shadow-primary/20">C&apos;est gratuit</Button>
+              <Button size="sm" className="shadow-lg shadow-primary/20">C'est gratuit</Button>
             </Link>
           </div>
         </div>
@@ -220,14 +220,14 @@ export default function LandingPage() {
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
             <Link href="/register">
               <Button size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all">
-                C&apos;est gratuit, je m&apos;inscris
+                C'est gratuit, je m'inscris
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link href="/outils">
               <Button variant="outline" size="lg" className="h-14 px-10 text-base">
                 <Wrench className="mr-2 h-4 w-4" />
-                Essayer sans s&apos;inscrire
+                Essayer sans s'inscrire
               </Button>
             </Link>
           </div>
@@ -279,7 +279,7 @@ export default function LandingPage() {
               6 piliers pour gérer ta tribu
             </h2>
             <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-              Aucune solution intégrée n&apos;existe sur le marché français. Jusqu&apos;à aujourd&apos;hui.
+              Aucune solution intégrée n'existe sur le marché français. Jusqu'à aujourd'hui.
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -431,7 +431,7 @@ export default function LandingPage() {
       <section data-testid="testimonials" className="py-24">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
-            <Badge variant="outline" className="mb-4">Ce qu&apos;ils en disent</Badge>
+            <Badge variant="outline" className="mb-4">Ce qu'ils en disent</Badge>
             <h2 className="text-3xl font-serif font-bold lg:text-4xl">
               Des parents comme toi
             </h2>
@@ -505,7 +505,7 @@ export default function LandingPage() {
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link href="/register">
               <Button size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25">
-                C&apos;est gratuit, je m&apos;inscris
+                C'est gratuit, je m'inscris
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>

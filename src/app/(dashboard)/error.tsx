@@ -27,7 +27,7 @@ export default function DashboardError({
           </div>
           <div>
             <h2 className="text-lg font-semibold">
-              Oups, quelque chose s&apos;est mal passé
+              Oups, quelque chose s'est mal passé
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
               Une erreur inattendue est survenue. Veuillez réessayer ou

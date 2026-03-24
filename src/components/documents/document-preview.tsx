@@ -76,7 +76,7 @@ export function DocumentPreview({ document, onClose }: DocumentPreviewProps) {
             {!isImage && !isPdf && (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <p className="text-sm text-muted-foreground mb-4">
-                  La prévisualisation n&apos;est pas disponible pour ce type de fichier.
+                  La prévisualisation n'est pas disponible pour ce type de fichier.
                 </p>
               </div>
             )}

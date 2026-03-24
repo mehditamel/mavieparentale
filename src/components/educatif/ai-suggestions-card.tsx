@@ -49,7 +49,7 @@ export function AiSuggestionsCard({ childId, childName, hasAccess }: AiSuggestio
         <CardContent className="flex items-center gap-3 p-4">
           <Lock className="h-5 w-5 text-muted-foreground" />
           <div className="flex-1">
-            <p className="text-sm font-medium">Suggestions d&apos;activités IA</p>
+            <p className="text-sm font-medium">Suggestions d'activités IA</p>
             <p className="text-xs text-muted-foreground">
               Passez au plan Premium pour des suggestions personnalisées.
             </p>
@@ -108,7 +108,7 @@ export function AiSuggestionsCard({ childId, childName, hasAccess }: AiSuggestio
 
         {suggestions.length === 0 && !error && !loading && (
           <p className="text-sm text-muted-foreground">
-            L&apos;IA vous suggère des activités adaptées à l&apos;âge et aux centres d&apos;intérêt de {childName}.
+            L'IA vous suggère des activités adaptées à l'âge et aux centres d'intérêt de {childName}.
           </p>
         )}
       </CardContent>

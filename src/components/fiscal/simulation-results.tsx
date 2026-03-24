@@ -140,7 +140,7 @@ export function SimulationResults({ result, input }: SimulationResultsProps) {
             <div className="rounded-xl bg-warm-green/5 border border-warm-green/10 p-4 space-y-2 animate-fade-in-up">
               <p className="text-sm font-semibold flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-warm-green" />
-                Détail des crédits d&apos;impôt
+                Détail des crédits d'impôt
               </p>
               {result.creditsImpot.gardeEnfant > 0 && (
                 <FlowRow

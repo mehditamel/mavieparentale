@@ -266,7 +266,7 @@ export function MESConnectionCard({ childMembers }: MESConnectionCardProps) {
 
         <p className="text-xs text-muted-foreground">
           Les données de santé sont synchronisées via le protocole FHIR R4 et hébergées
-          conformément aux exigences HDS. Vous pouvez révoquer l&apos;accès à tout moment.
+          conformément aux exigences HDS. Vous pouvez révoquer l'accès à tout moment.
         </p>
       </CardContent>
     </Card>
