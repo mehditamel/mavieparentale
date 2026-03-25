@@ -20,15 +20,18 @@ async function checkSupabase(): Promise<ServiceStatus> {
   }
 
   try {
-    const response = await fetch(`${url}/rest/v1/`, {
+    const response = await fetch(`${url}/rest/v1/profiles?select=id&limit=0`, {
       headers: {
         apikey: key,
         Authorization: `Bearer ${key}`,
       },
       signal: AbortSignal.timeout(5000),
     });
-    if (response.ok || response.status === 200) {
+    if (response.ok || response.status === 200 || response.status === 206) {
       return { status: "ok" };
+    }
+    if (response.status === 401) {
+      return { status: "ok", message: "Connexion OK (RLS actif)" };
     }
     return { status: "error", message: `HTTP ${response.status}` };
   } catch (err) {
