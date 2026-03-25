@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookieResetButton } from "./cookie-reset-button";
 
 interface FooterProps {
   variant?: "full" | "compact";
@@ -92,6 +93,9 @@ export function Footer({ variant = "full" }: FooterProps) {
                 <Link href="/politique-confidentialite" className="hover:text-foreground transition-colors">
                   Politique de confidentialité
                 </Link>
+              </li>
+              <li>
+                <CookieResetButton />
               </li>
             </ul>
           </div>
