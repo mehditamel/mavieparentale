@@ -25,6 +25,8 @@ import { LandingAnimations } from "@/components/landing/landing-animations";
 import { Footer } from "@/components/layout/footer";
 import { FaqSection } from "@/components/landing/faq-section";
 import { PricingSection } from "@/components/landing/pricing-section";
+import { AnimatedStatsBar } from "@/components/landing/animated-stats-bar";
+import { ScrollSection } from "@/components/landing/scroll-section";
 import { NewsletterSignup } from "@/components/blog/newsletter-signup";
 import { getAllArticles } from "@/lib/blog-data";
 import { BookOpen, Clock } from "lucide-react";
@@ -153,7 +155,7 @@ export default function LandingPage() {
       />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md transition-all">
+      <header className="sticky top-0 z-50 glass-topbar transition-all">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link href="/" className="flex items-center space-x-2.5 group">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white font-bold text-sm shadow-lg shadow-warm-orange/20 transition-transform group-hover:scale-105">
@@ -210,32 +212,104 @@ export default function LandingPage() {
           <div className="animate-float absolute top-1/4 left-[15%] h-24 w-24 rounded-full bg-gradient-to-br from-warm-purple/6 to-warm-purple/2" style={{ animationDelay: "3s" }} />
         </div>
 
-        <div className="relative mx-auto max-w-6xl px-4 text-center">
-          {/* Trust badge */}
-          <div className="inline-flex items-center gap-2 rounded-full bg-warm-green/10 px-4 py-1.5 text-sm text-warm-green font-medium mb-8 animate-fade-in-up">
-            <Zap className="h-3.5 w-3.5" />
-            100% gratuit, sans piège, sans pub intrusive
-          </div>
+        <div className="relative mx-auto max-w-6xl px-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12">
+            {/* Hero text — left side on desktop, full width on mobile */}
+            <div className="text-center lg:text-left lg:flex-1">
+              {/* Trust badge */}
+              <div className="inline-flex items-center gap-2 rounded-full bg-warm-green/10 px-4 py-1.5 text-sm text-warm-green font-medium mb-8 animate-fade-in-up">
+                <Zap className="h-3.5 w-3.5" />
+                100% gratuit, sans piège, sans pub intrusive
+              </div>
 
-          <LandingAnimations />
+              <LandingAnimations />
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
-            <Link href="/register">
-              <Button size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all">
-                C'est gratuit, je m'inscris
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-            <Link href="/outils">
-              <Button variant="outline" size="lg" className="h-14 px-10 text-base">
-                <Wrench className="mr-2 h-4 w-4" />
-                Essayer sans s'inscrire
-              </Button>
-            </Link>
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
+                <Link href="/register">
+                  <Button size="lg" className="h-14 px-10 text-base font-semibold group shadow-xl shadow-primary/25 hover:shadow-2xl hover:shadow-primary/30 transition-all">
+                    C'est gratuit, je m'inscris
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+                <Link href="/outils">
+                  <Button variant="outline" size="lg" className="h-14 px-10 text-base">
+                    <Wrench className="mr-2 h-4 w-4" />
+                    Essayer sans s'inscrire
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Phone mockup — right side on desktop, below text on mobile */}
+            <div className="mt-14 lg:mt-0 flex justify-center lg:flex-shrink-0 animate-fade-in-up" style={{ animationDelay: "0.8s" }}>
+              <div className="animate-float" style={{ perspective: "1200px" }}>
+                <div
+                  className="relative w-[280px] h-[560px] rounded-[3rem] border-[6px] border-foreground/15 bg-card shadow-2xl shadow-black/15 overflow-hidden"
+                  style={{ transform: "rotateY(-8deg) rotateX(4deg)" }}
+                >
+                  {/* Phone notch */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-foreground/15 rounded-b-2xl z-10" />
+
+                  {/* Mini dashboard content */}
+                  <div className="p-4 pt-10 h-full bg-gradient-to-b from-background to-card">
+                    {/* Mini topbar */}
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white text-[10px] font-bold">D</div>
+                      <span className="text-xs font-serif font-bold">Darons</span>
+                    </div>
+
+                    {/* Welcome text */}
+                    <p className="text-[11px] text-muted-foreground mb-1">Bonjour Mehdi</p>
+                    <p className="text-sm font-semibold mb-4">Tableau de bord</p>
+
+                    {/* Mini cards */}
+                    <div className="space-y-2.5">
+                      <div className="rounded-xl bg-warm-teal/10 p-3">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <HeartPulse className="h-3.5 w-3.5 text-warm-teal" />
+                          <span className="text-[10px] font-semibold text-warm-teal">Santé</span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground">Prochain vaccin dans 12 jours</p>
+                        <div className="mt-1.5 h-1.5 w-full rounded-full bg-warm-teal/20">
+                          <div className="h-full w-3/4 rounded-full bg-warm-teal" />
+                        </div>
+                      </div>
+
+                      <div className="rounded-xl bg-warm-purple/10 p-3">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Wallet className="h-3.5 w-3.5 text-warm-purple" />
+                          <span className="text-[10px] font-semibold text-warm-purple">Budget</span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground">Reste à vivre : 847 €</p>
+                        <div className="mt-1.5 h-1.5 w-full rounded-full bg-warm-purple/20">
+                          <div className="h-full w-[60%] rounded-full bg-warm-purple" />
+                        </div>
+                      </div>
+
+                      <div className="rounded-xl bg-warm-gold/10 p-3">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Calculator className="h-3.5 w-3.5 text-warm-gold" />
+                          <span className="text-[10px] font-semibold text-warm-gold">Fiscal</span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground">Économie estimée : 3 850 €</p>
+                      </div>
+
+                      <div className="rounded-xl bg-warm-orange/10 p-3">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <ClipboardList className="h-3.5 w-3.5 text-warm-orange" />
+                          <span className="text-[10px] font-semibold text-warm-orange">Alertes</span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground">2 actions à faire cette semaine</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Tools strip */}
-          <div className="mt-14 animate-fade-in-up" style={{ animationDelay: "0.8s" }}>
+          <div className="mt-14 text-center animate-fade-in-up" style={{ animationDelay: "1s" }}>
             <p className="text-sm text-muted-foreground mb-4">15 outils gratuits, sans inscription</p>
             <div className="flex flex-wrap justify-center gap-2">
               {TOOLS_PREVIEW.map((tool) => (
@@ -256,64 +330,55 @@ export default function LandingPage() {
       {/* Stats bar */}
       <section data-testid="stats" className="border-y bg-card">
         <div className="mx-auto max-w-6xl px-4 py-8">
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-            {[
-              { value: "6", label: "Modules complets" },
-              { value: "15", label: "Outils gratuits" },
-              { value: "100%", label: "Gratuit pour toujours" },
-              { value: "0€", label: "Pas de premium caché" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="text-3xl font-bold text-gradient">{stat.value}</p>
-                <p className="mt-1 text-xs text-muted-foreground font-medium">{stat.label}</p>
-              </div>
-            ))}
-          </div>
+          <AnimatedStatsBar />
         </div>
       </section>
 
       {/* Features */}
       <section id="fonctionnalites" data-testid="features" className="py-24">
-        <div className="mx-auto max-w-6xl px-4">
-          <div className="text-center mb-16">
-            <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
-            <h2 className="text-3xl font-serif font-bold lg:text-4xl">
-              6 piliers pour gérer ta tribu
-            </h2>
-            <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-              Aucune solution intégrée n'existe sur le marché français. Jusqu'à aujourd'hui.
-            </p>
+        <ScrollSection direction="up">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="text-center mb-16">
+              <Badge variant="outline" className="mb-4">Fonctionnalités</Badge>
+              <h2 className="text-3xl font-serif font-bold lg:text-4xl">
+                6 piliers pour gérer ta tribu
+              </h2>
+              <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
+                Aucune solution intégrée n'existe sur le marché français. Jusqu'à aujourd'hui.
+              </p>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {FEATURES.map((feature, index) => (
+                <Link key={index} href={feature.href}>
+                  <Card className="card-playful border-0 shadow-md group overflow-hidden h-full">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                    <CardHeader className="relative">
+                      <div
+                        className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}
+                      >
+                        <feature.icon className="h-6 w-6" />
+                      </div>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        {feature.title}
+                        <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="relative">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((feature, index) => (
-              <Link key={index} href={feature.href}>
-                <Card className="card-playful border-0 shadow-md group overflow-hidden h-full">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <CardHeader className="relative">
-                    <div
-                      className={`mb-3 flex h-12 w-12 items-center justify-center rounded-xl ${feature.bgColor} ${feature.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}
-                    >
-                      <feature.icon className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      {feature.title}
-                      <ArrowRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="relative">
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
+        </ScrollSection>
       </section>
 
       {/* AI Section */}
       <section data-testid="ai-alerts" className="py-24 bg-gradient-to-b from-background to-card">
+        <ScrollSection direction="up">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-purple/20 to-warm-blue/20 mb-6 shadow-lg shadow-warm-purple/10">
@@ -348,10 +413,12 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       {/* Gratuit vs concurrence */}
       <section data-testid="competitors" className="py-24">
+        <ScrollSection direction="left">
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4 border-warm-green/30 text-warm-green">Comparatif</Badge>
@@ -391,10 +458,12 @@ export default function LandingPage() {
             </CardContent>
           </Card>
         </div>
+        </ScrollSection>
       </section>
 
       {/* Security */}
       <section id="securite" data-testid="security" className="py-24 bg-card">
+        <ScrollSection direction="up">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-warm-green/10 mb-6">
@@ -427,10 +496,12 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       {/* Testimonials */}
       <section data-testid="testimonials" className="py-24">
+        <ScrollSection direction="up">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-14">
             <Badge variant="outline" className="mb-4">Ce qu'ils en disent</Badge>
@@ -506,6 +577,7 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       {/* CTA */}
@@ -513,6 +585,7 @@ export default function LandingPage() {
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-warm-orange/5 via-transparent to-warm-teal/5" />
         </div>
+        <ScrollSection direction="scale">
         <div className="relative mx-auto max-w-3xl px-4 text-center">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-orange to-warm-orange/80 text-white mb-8 shadow-xl shadow-warm-orange/20">
             <Sparkles className="h-7 w-7" />
@@ -538,10 +611,12 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       {/* Blog articles */}
       <section className="py-24 bg-card">
+        <ScrollSection direction="up">
         <div className="mx-auto max-w-6xl px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-serif font-bold">
@@ -582,6 +657,7 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+        </ScrollSection>
       </section>
 
       <PricingSection />
