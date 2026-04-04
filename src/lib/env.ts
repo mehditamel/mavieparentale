@@ -50,6 +50,12 @@ const serverSchema = z.object({
   UPSTASH_REDIS_REST_URL: z.string().optional().default(""),
   UPSTASH_REDIS_REST_TOKEN: z.string().optional().default(""),
 
+  // Cron
+  CRON_SECRET: z.string().optional().default(""),
+
+  // Web Push (VAPID)
+  VAPID_PRIVATE_KEY: z.string().optional().default(""),
+
   // Monitoring
   SENTRY_DSN: z.string().optional().default(""),
 
