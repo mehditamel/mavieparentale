@@ -213,7 +213,7 @@ export async function sendPushNotification(
   if (!household) return { success: false, error: "Foyer introuvable" };
 
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://darons.app";
     const response = await fetch(`${appUrl}/api/notifications/push/send`, {
       method: "POST",
       headers: {

@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createMESClient, isMESConfigured } from "@/lib/integrations/mon-espace-sante";
 
 export async function GET(request: NextRequest) {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://darons.app";
 
   if (!isMESConfigured()) {
     return NextResponse.redirect(`${appUrl}/sante?error=mes_not_configured`);
